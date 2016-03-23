@@ -29,8 +29,8 @@
 # This function is the logical complement of `assert_file_not_exist'.
 #
 # Globals:
-#   BATSLIB_FILE_PREFIX_REM
-#   BATSLIB_FILE_PREFIX_ADD
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
 # Arguments:
 #   $1 - path
 # Returns:
@@ -53,8 +53,8 @@ assert_file_exist() {
 # function is the logical complement of `assert_file_exist'.
 #
 # Globals:
-#   BATSLIB_FILE_PREFIX_REM
-#   BATSLIB_FILE_PREFIX_ADD
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
 # Arguments:
 #   $1 - path
 # Returns:
