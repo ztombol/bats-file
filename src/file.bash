@@ -1,5 +1,5 @@
 #
-# bats-file - Common filesystem assertions for Bats
+# bats-file - Common filesystem assertions and helpers for Bats
 #
 # Written in 2016 by Zoltan Tombol <zoltan dot tombol at gmail dot com>
 #
