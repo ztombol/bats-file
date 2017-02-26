@@ -63,6 +63,44 @@ On failure, the path is displayed.
 path : /path/to/existing-file
 --
 ```
+### `assert_file_empty`
+
+Fail if the given file or directory is not empty.
+
+```bash
+@test 'assert_file_empty()' {
+  assert_file_empty /path/to/empty-file
+}
+```
+
+On failure, the path and the content of the file is displayed.
+
+```
+-- file is not empty --
+path : /path/to/empty-file
+output (2 lines) : content-line-1
+content-line-2
+--
+```
+
+
+### `assert_file_not_empty`
+
+Fail if the given file or directory empty.
+
+```bash
+@test 'assert_file_not_empty() {
+  assert_file_not_empty /path/to/non-empty-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file empty, but it was expected to contain something --
+path : /path/to/non-empty-file
+--
+```
 
 
 ## Working with temporary directories

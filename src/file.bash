@@ -72,3 +72,54 @@ assert_file_not_exist() {
       | fail
   fi
 }
+
+# Fail and display path of the file (or directory) if it is not empty.
+# This function is the logical complement of `assert_file_not_empty'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - file empty
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_empty() {
+  local -r file="$1"
+  if [[ -s "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    { local -ir width=8
+      batslib_print_kv_single "$width" 'path' "${file/$rem/$add}"
+      batslib_print_kv_single_or_multi "$width" \
+          'output' "$(cat $file)"
+    } | batslib_decorate 'file is not empty' \
+      | fail
+  fi
+}
+
+# Fail and display path of the file (or directory) if it is empty. This
+# function is the logical complement of `assert_file_empty'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - file is not empty
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_not_empty() {
+  local -r file="$1"
+  if [[ ! -s "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file empty, but it was expected to contain something' \
+      | fail
+  fi
+}
