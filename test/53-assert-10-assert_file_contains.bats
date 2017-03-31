@@ -4,13 +4,6 @@ load 'test_helper'
 fixtures 'empty'
 
 # Correctness
-@test 'assert_file_contains() <file>: returns 0 if <file> empty' {
-  local -r file="${TEST_FIXTURE_ROOT}/dir/empty-file"
-  run assert_file_contains "$file" ""
-  [ "$status" -eq 0 ]
-  [ "${#lines[@]}" -eq 0 ]
-}
-
 @test 'assert_file_contains() <file>: returns 0 and displays content if <file> matches string' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/non-empty-file"
   run assert_file_contains "$file" "Not empty"
