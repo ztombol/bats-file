@@ -102,6 +102,37 @@ path : /path/to/non-empty-file
 --
 ```
 
+### `assert_file_contains`
+
+Fail if the given file does not contain the regex.
+
+```bash
+@test 'assert_file_contains() {
+    assert_file_contains /path/to/non-empty-file regex
+}
+```
+
+On failure, the path and expected regex are displayed.
+
+```
+```
+
+### `assert_file_size_equals`
+
+Fail if the given file size does not match the input.
+
+```bash
+@test 'assert_file_size_equals() {
+    assert_file_size_equals /path/to/non-empty-file bytecount
+}
+```
+
+On failure, the path and expected bytecount are displayed.
+
+```
+```
+
+
 
 ## Working with temporary directories
 
