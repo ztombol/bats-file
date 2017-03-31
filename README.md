@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-CC0-blue.svg)](https://raw.githubusercontent.com/ztombol/bats-file/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/ztombol/bats-file.svg)](https://github.com/ztombol/bats-file/releases/latest)
-[![Build Status](https://travis-ci.org/ztombol/bats-file.svg?branch=master)](https://travis-ci.org/ztombol/bats-file)
+[![Build Status](https://travis-ci.org/RightsLock/bats-file.svg?branch=file-size-equals-and-file-contains)](https://travis-ci.org/RightsLock/bats-file)
 
 `bats-file` is a helper library providing common filesystem related
 assertions and helpers for [Bats][bats].
@@ -63,6 +63,75 @@ On failure, the path is displayed.
 path : /path/to/existing-file
 --
 ```
+### `assert_file_empty`
+
+Fail if the given file or directory is not empty.
+
+```bash
+@test 'assert_file_empty()' {
+  assert_file_empty /path/to/empty-file
+}
+```
+
+On failure, the path and the content of the file is displayed.
+
+```
+-- file is not empty --
+path : /path/to/empty-file
+output (2 lines) : content-line-1
+content-line-2
+--
+```
+
+
+### `assert_file_not_empty`
+
+Fail if the given file or directory empty.
+
+```bash
+@test 'assert_file_not_empty() {
+  assert_file_not_empty /path/to/non-empty-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file empty, but it was expected to contain something --
+path : /path/to/non-empty-file
+--
+```
+
+### `assert_file_contains`
+
+Fail if the given file does not contain the regex.
+
+```bash
+@test 'assert_file_contains() {
+    assert_file_contains /path/to/non-empty-file regex
+}
+```
+
+On failure, the path and expected regex are displayed.
+
+```
+```
+
+### `assert_file_size_equals`
+
+Fail if the given file size does not match the input.
+
+```bash
+@test 'assert_file_size_equals() {
+    assert_file_size_equals /path/to/non-empty-file bytecount
+}
+```
+
+On failure, the path and expected bytecount are displayed.
+
+```
+```
+
 
 
 ## Working with temporary directories
