@@ -72,3 +72,36 @@ assert_file_not_exist() {
       | fail
   fi
 }
+
+# Fail and display path of the file (or directory) if it is not a symlink.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - source
+#   $2 - destination
+# Returns:
+#   0 - link to correct target
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_symlink_to() {
+  local -r sourcefile="$1"
+  local -r link="$2"
+  if [ ! -L $link   ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+      | batslib_decorate 'file is not a symbolic link' \
+      | fail
+  fi
+  local -r realsource=$( readlink -f "$link" )
+  if [ ! "$realsource" = "$sourcefile"  ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+      | batslib_decorate 'symbolic link does not have the correct target' \
+      | fail
+  fi
+}
