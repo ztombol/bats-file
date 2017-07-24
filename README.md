@@ -64,6 +64,24 @@ path : /path/to/existing-file
 --
 ```
 
+### `assert_symlink_to`
+
+Fail if the given file is not a symbolic to a defined target.
+
+```bash
+@test 'assert_symlink_to() {
+  assert_symlink_to /path/to/source-file /path/to/symlink
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- symbolic link does not have the correct target --
+path : /path/to/symlink
+--
+```
+
 
 ## Working with temporary directories
 
