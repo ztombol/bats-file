@@ -25,7 +25,31 @@
 # `output.bash' and sent to the standard error.
 #
 
-# Fail and display path of the file (or directory) if it does not exist.
+# Fail and display path of the file or directory if it does not exist.
+# This function is the logical complement of `assert_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - file or directory exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_exist() {
+  local -r file="$1"
+  if [[ ! -e "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file or directory does not exist' \
+      | fail
+  fi
+}
+
+# Fail and display path of the file if it does not exist.
 # This function is the logical complement of `assert_file_not_exist'.
 #
 # Globals:
@@ -40,7 +64,7 @@
 #   STDERR - details, on failure
 assert_file_exist() {
   local -r file="$1"
-  if [[ ! -e "$file" ]]; then
+  if [[ ! -f "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
@@ -49,7 +73,55 @@ assert_file_exist() {
   fi
 }
 
+# Fail and display path of the directory if it does not exist.
+# This function is the logical complement of `assert_dir_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - directory exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_dir_exist() {
+  local -r file="$1"
+  if [[ ! -d "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'directory does not exist' \
+      | fail
+  fi
+}
+
 # Fail and display path of the file (or directory) if it exists. This
+# function is the logical complement of `assert_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - file does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_not_exist() {
+  local -r file="$1"
+  if [[ -e "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file or directory exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the file if it exists. This
 # function is the logical complement of `assert_file_exist'.
 #
 # Globals:
@@ -64,11 +136,35 @@ assert_file_exist() {
 #   STDERR - details, on failure
 assert_file_not_exist() {
   local -r file="$1"
-  if [[ -e "$file" ]]; then
+  if [[ -f "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
       | batslib_decorate 'file exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the directory if it exists. This
+# function is the logical complement of `assert_dir_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - directory does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_dir_not_exist() {
+  local -r file="$1"
+  if [[ -d "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'directory exists, but it was expected to be absent' \
       | fail
   fi
 }
