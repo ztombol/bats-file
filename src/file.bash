@@ -97,6 +97,126 @@ assert_dir_exist() {
   fi
 }
 
+# Fail and display path of the block special file if it does not exist.
+# This function is the logical complement of `assert_block_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - block special file exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_block_exist() {
+  local -r file="$1"
+  if [[ ! -b "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'block special file does not exist' \
+      | fail
+  fi
+}
+
+# Fail and display path of the character special file if it does not exist.
+# This function is the logical complement of `assert_character_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - character special file exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_character_exist() {
+  local -r file="$1"
+  if [[ ! -c "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'character special file does not exist' \
+      | fail
+  fi
+}
+
+# Fail and display path of the symbolic link if it does not exist.
+# This function is the logical complement of `assert_link_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - symbolic link exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_link_exist() {
+  local -r file="$1"
+  if [[ ! -L "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'symbolic link does not exist' \
+      | fail
+  fi
+}
+
+# Fail and display path of the socket if it does not exist.
+# This function is the logical complement of `assert_socket_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - socket exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_socket_exist() {
+  local -r file="$1"
+  if [[ ! -S "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'socket does not exist' \
+      | fail
+  fi
+}
+
+# Fail and display path of the named pipe if it does not exist.
+# This function is the logical complement of `assert_fifo_not_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - named pipe exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_fifo_exist() {
+  local -r file="$1"
+  if [[ ! -p "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'fifo does not exist' \
+      | fail
+  fi
+}
+
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
 #
@@ -165,6 +285,126 @@ assert_dir_not_exist() {
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
       | batslib_decorate 'directory exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the block special file if it exists. This
+# function is the logical complement of `assert_block_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - block special file does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_block_not_exist() {
+  local -r file="$1"
+  if [[ -b "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'block special file exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the character special file if it exists. This
+# function is the logical complement of `assert_character_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - character special file does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_char_not_exist() {
+  local -r file="$1"
+  if [[ -c "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'character special file exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the symbolic link if it exists. This
+# function is the logical complement of `assert_link_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - symbolic link does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_link_not_exist() {
+  local -r file="$1"
+  if [[ -L "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'symbolic link exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the socket if it exists. This
+# function is the logical complement of `assert_socket_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - socket does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_socket_not_exist() {
+  local -r file="$1"
+  if [[ -S "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'socket exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+# Fail and display path of the named pipe if it exists. This
+# function is the logical complement of `assert_fifo_exist'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - named pipe does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_fifo_not_exist() {
+  local -r file="$1"
+  if [[ -p "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'fifo exists, but it was expected to be absent' \
       | fail
   fi
 }
