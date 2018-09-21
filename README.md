@@ -27,9 +27,27 @@ load this library.
 
 ## Usage
 
-### `assert_file_exist`
+### `assert_exist`
 
 Fail if the given file or directory does not exist.
+
+```bash
+@test 'assert_exist()' {
+  assert_exist /path/to/non-existent-file-or-dir
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file or directory does not exist --
+path : /path/to/non-existent-file-or-dir
+--
+```
+
+### `assert_file_exist`
+
+Fail if the given file does not exist.
 
 ```bash
 @test 'assert_file_exist()' {
@@ -45,6 +63,113 @@ path : /path/to/non-existent-file
 --
 ```
 
+### `assert_dir_exist`
+
+Fail if the given directory does not exist.
+
+```bash
+@test 'assert_dir_exist()' {
+  assert_file_exist /path/to/non-existent-directory
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- directory does not exist --
+path : /path/to/non-existent-directory
+--
+```
+
+### `assert_link_exist`
+
+Fail if the given symbolic link does not exist.
+
+```bash
+@test 'assert_link_exist()' {
+  assert_file_exist /path/to/non-existent-link-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- symbolic link does not exist --
+path : /path/to/non-existent-link-file
+--
+```
+
+### `assert_block_exist`
+
+Fail if the given block special file does not exist.
+
+```bash
+@test 'assert_block_exist()' {
+  assert_file_exist /path/to/non-existent-block-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- block special file does not exist --
+path : /path/to/non-existent-block-file
+--
+```
+
+### `assert_character_exist`
+
+Fail if the given character special file does not exist.
+
+```bash
+@test 'assert_character_exist()' {
+  assert_file_exist /path/to/non-existent-character-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- character special file does not exist --
+path : /path/to/non-existent-character-file
+--
+```
+
+### `assert_socket_exist`
+
+Fail if the given socket does not exist.
+
+```bash
+@test 'assert_socket_exist()' {
+  assert_file_exist /path/to/non-existent-socket
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- socket does not exist --
+path : /path/to/non-existent-socket
+--
+```
+
+### `assert_fifo_exist`
+
+Fail if the given named pipe does not exist.
+
+```bash
+@test 'assert_fifo_exist()' {
+  assert_file_exist /path/to/non-existent-fifo-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- fifo does not exist --
+path : /path/to/non-existent-fifo-file
+--
+```
 
 ### `assert_file_not_exist`
 
@@ -59,11 +184,118 @@ Fail if the given file or directory exists.
 On failure, the path is displayed.
 
 ```
--- file exists, but it was expected to be absent --
+-- file or directory exists, but it was expected to be absent --
 path : /path/to/existing-file
 --
 ```
 
+### `assert_dir_not_exist`
+
+Fail if the given directory exists.
+
+```bash
+@test 'assert_dir_not_exist() {
+  assert_dir_not_exist /path/to/existing-directory
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- directory exists, but it was expected to be absent --
+path : /path/to/existing-directory
+--
+```
+
+### `assert_link_not_exist`
+
+Fail if the given symbolic link exists.
+
+```bash
+@test 'assert_link_not_exist() {
+  assert_file_not_exist /path/to/existing-link-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- symbolic link exists, but it was expected to be absent --
+path : /path/to/existing-link-file
+--
+```
+
+### `assert_block_not_exist`
+
+Fail if the given block special file exists.
+
+```bash
+@test 'assert_block_not_exist() {
+  assert_file_not_exist /path/to/existing-block-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- block special file exists, but it was expected to be absent --
+path : /path/to/existing-block-file
+--
+```
+
+### `assert_character_not_exist`
+
+Fail if the given character special file exists.
+
+```bash
+@test 'assert_character_not_exist() {
+  assert_file_not_exist /path/to/existing-character-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- character special file exists, but it was expected to be absent --
+path : /path/to/existing-character-file
+--
+```
+
+### `assert_socket_not_exist`
+
+Fail if the given socket exists.
+
+```bash
+@test 'assert_socket_not_exist() {
+  assert_file_not_exist /path/to/existing-socket
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- socket exists, but it was expected to be absent --
+path : /path/to/existing-socket
+--
+```
+
+### `assert_fifo_not_exist`
+
+Fail if the given named pipe exists.
+
+```bash
+@test 'assert_fifo_not_exist() {
+  assert_file_not_exist /path/to/existing-fifo-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- named pipe exists, but it was expected to be absent --
+path : /path/to/existing-fifo-file
+--
+```
 
 ## Working with temporary directories
 
