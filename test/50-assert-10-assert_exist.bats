@@ -11,6 +11,13 @@ fixtures 'exist'
   [ "${#lines[@]}" -eq 0 ]
 }
 
+@test 'assert_exist() <file>: returns 0 if <directory> exists' {
+  local -r file="${TEST_FIXTURE_ROOT}/dir"
+  run assert_exist "$file"
+  [ "$status" -eq 0 ]
+  [ "${#lines[@]}" -eq 0 ]
+}
+
 @test 'assert_exist() <file>: returns 1 and displays path if <file> does not exist' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/file.does_not_exist"
   run assert_exist "$file"

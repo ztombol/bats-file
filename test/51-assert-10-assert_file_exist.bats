@@ -40,7 +40,7 @@ fixtures 'exist'
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- file does not exist --' ]
-  [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/dir/.." ]
+  [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/dir" ]
   [ "${lines[2]}" == '--' ]
 }
 
