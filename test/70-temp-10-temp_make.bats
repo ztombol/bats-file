@@ -23,7 +23,7 @@ fixtures 'temp'
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- ERROR: temp_make --' ]
-  [[ ${lines[1]} == 'mktemp: failed to create directory via template'* ]] || false
+  [[ ${lines[1]} == 'mktemp: failed to create directory via template'* ]]
   [ "${lines[2]}" == '--' ]
 }
 

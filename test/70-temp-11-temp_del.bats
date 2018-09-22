@@ -23,7 +23,7 @@ fixtures 'temp'
   [ "${lines[0]}" == '-- ERROR: temp_del --' ]
   # Travis CI's Ubuntu 12.04, quotes the path with a backtick and an
   # apostrophe, instead of just apostrophes.
-  [[ ${lines[1]} =~ 'rm: cannot remove '[\`\']"${path}': No such file or directory" ]]
+  [[ ${lines[1]} =~ 'rm: cannot remove '.${path}.': No such file or directory' ]]
   [ "${lines[2]}" == '--' ]
 }
 
