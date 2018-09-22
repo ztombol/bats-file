@@ -1,8 +1,8 @@
 # bats-file
 
-[![GitHub license](https://img.shields.io/badge/license-CC0-blue.svg)](https://raw.githubusercontent.com/ztombol/bats-file/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/ztombol/bats-file.svg)](https://github.com/ztombol/bats-file/releases/latest)
-[![Build Status](https://travis-ci.org/ztombol/bats-file.svg?branch=master)](https://travis-ci.org/ztombol/bats-file)
+[![GitHub license](https://img.shields.io/badge/license-CC0-blue.svg)](https://raw.githubusercontent.com/peshay/bats-file/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/peshay/bats-file.svg)](https://github.com/peshay/bats-file/releases/latest)
+[![Build Status](https://travis-ci.org/peshay/bats-file.svg?branch=master)](https://travis-ci.org/peshay/bats-file)
 
 `bats-file` is a helper library providing common filesystem related
 assertions and helpers for [Bats][bats].
