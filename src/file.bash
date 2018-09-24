@@ -217,6 +217,33 @@ assert_fifo_exist() {
   fi
 }
 
+
+# Fail and display path of the named file if it is not executable.
+# This function is the logical complement of `assert_file_not_executable'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - named pipe exists
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_executable() {
+
+  local -r file="$1"
+  if [[ ! -x "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file is not executable' \
+      | fail
+  fi
+}
+
+
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
 #
@@ -405,6 +432,34 @@ assert_fifo_not_exist() {
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
       | batslib_decorate 'fifo exists, but it was expected to be absent' \
+      | fail
+  fi
+}
+
+
+
+
+
+# Fail and display path of the named file if it is executable. This
+# function is the logical complement of `assert_file_executable'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - named pipe does not exist
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_not_executable() {
+  local -r file="$1"
+  if [[ -x "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file is executable, but it was expected to be not executable' \
       | fail
   fi
 }
