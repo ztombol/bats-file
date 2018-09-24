@@ -16,6 +16,7 @@ fixtures 'exist'
   run assert_file_not_executable "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
+  [ "${lines[0]}" == '-- file is executable, but it was expected to be not executable --' ]
   [ "${lines[1]}" == "path : $file" ]
   [ "${lines[2]}" == '--' ]
 }
@@ -27,6 +28,7 @@ fixtures 'exist'
   run assert_file_not_executable "${TEST_FIXTURE_ROOT}/dir/execfile"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
+  [ "${lines[0]}" == '-- file is executable, but it was expected to be not executable --' ]
   [ "${lines[1]}" == "path : ../dir/execfile" ]
   [ "${lines[2]}" == '--' ]
 }
@@ -37,6 +39,7 @@ fixtures 'exist'
   run assert_file_not_executable "${TEST_FIXTURE_ROOT}/dir"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
+  [ "${lines[0]}" == '-- file is executable, but it was expected to be not executable --' ]
   [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/dir" ]
   [ "${lines[2]}" == '--' ]
 }
@@ -47,6 +50,7 @@ fixtures 'exist'
   run assert_file_not_executable "${TEST_FIXTURE_ROOT}/dir/execfile"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
+  [ "${lines[0]}" == '-- file is executable, but it was expected to be not executable --' ]
   [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/../execfile" ]
   [ "${lines[2]}" == '--' ]
 }

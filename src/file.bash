@@ -241,22 +241,7 @@ assert_file_executable() {
       | batslib_decorate 'file is not executable' \
       | fail
   fi
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Fail and display path of the file (or directory) if it exists. This
@@ -474,7 +459,7 @@ assert_file_not_executable() {
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate 'file is executable, but it was expected to be absent' \
+      | batslib_decorate 'file is executable, but it was expected to be not executable' \
       | fail
   fi
 }

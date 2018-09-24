@@ -47,10 +47,10 @@ fixtures 'exist'
 @test 'assert_file_executable() <file>: replace infix of displayed path' {
   local -r BATSLIB_FILE_PATH_REM='nodir'
   local -r BATSLIB_FILE_PATH_ADD='..'
-  run assert_file_exist "${TEST_FIXTURE_ROOT}/nodir"
+  run assert_file_executable "${TEST_FIXTURE_ROOT}/nodir"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
-#  [ "${lines[0]}" == '-- file is not executable --' ]
+  [ "${lines[0]}" == '-- file is not executable --' ]
   [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/.." ]
   [ "${lines[2]}" == '--' ]
 }

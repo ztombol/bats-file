@@ -197,7 +197,6 @@ path : /path/to/executable-file
 Fail if the given file or directory exists.
 
 
-
 ```bash
 @test 'assert_file_not_exist() {
   assert_file_not_exist /path/to/existing-file
@@ -334,12 +333,10 @@ Fail if the given file is executable.
 On failure, the path is displayed.
 
 ```
--- file is executable --
+-- file is executable, but it was expected to be not executable --
 path : /path/to/executable-file
 --
 ```
-
-
 
 
 
