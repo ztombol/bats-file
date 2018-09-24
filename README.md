@@ -171,9 +171,32 @@ path : /path/to/non-existent-fifo-file
 --
 ```
 
+
+### `assert_file_executable`
+
+Fail if the given file is not executable.
+
+```bash
+@test 'assert_file_executable() {
+  assert_file_executable /path/to/executable-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is not executable --
+path : /path/to/executable-file
+--
+```
+
+
+
 ### `assert_file_not_exist`
 
 Fail if the given file or directory exists.
+
+
 
 ```bash
 @test 'assert_file_not_exist() {
@@ -296,6 +319,29 @@ On failure, the path is displayed.
 path : /path/to/existing-fifo-file
 --
 ```
+
+
+### `assert_file_not_executable`
+
+Fail if the given file is executable.
+
+```bash
+@test 'assert_file_not_executable() {
+  assert_file_not_executable /path/to/executable-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is executable --
+path : /path/to/executable-file
+--
+```
+
+
+
+
 
 ## Working with temporary directories
 

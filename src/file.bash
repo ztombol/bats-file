@@ -219,7 +219,7 @@ assert_fifo_exist() {
 
 
 # Fail and display path of the named file if it is not executable.
-# This function is the logical complement of `assert_file_not_executeable'.
+# This function is the logical complement of `assert_file_not_executable'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -231,7 +231,7 @@ assert_fifo_exist() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_file_executeable() {
+assert_file_executable() {
 
   local -r file="$1"
   if [[ ! -x "$file" ]]; then
@@ -456,7 +456,7 @@ assert_fifo_not_exist() {
 
 
 # Fail and display path of the named file if it is executable. This
-# function is the logical complement of `assert_file_executeable'.
+# function is the logical complement of `assert_file_executable'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -468,7 +468,7 @@ assert_fifo_not_exist() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_file_not_executeable() {
+assert_file_not_executable() {
   local -r file="$1"
   if [[ -x "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
