@@ -1,14 +1,20 @@
 #!/usr/bin/env bats
-
 load 'test_helper'
 fixtures 'exist'
+
+setup () {
+ sudo mknod ${TEST_FIXTURE_ROOT}/dir/blockfile b 89 1
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/blockfile
+}
 
 # Correctness
 @test 'assert_block_exist() <file>: returns 0 if <file> block special file exists' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/blockfile"
   run assert_block_exist "$file"
   [ "$status" -eq 0 ]
-  [ "${#lines[@]}" -eq 0 ]
+  [ "${#lines[@]}" -eq 0 ] 
 }
 
 @test 'assert_block_exist() <file>: returns 1 and displays path if <file> block special file does not exist' {

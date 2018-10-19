@@ -3,6 +3,14 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+  python -c "import socket as s; sock = s.socket(s.AF_UNIX); sock.bind('${TEST_FIXTURE_ROOT}/dir/somesocket')"
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/somesocket
+}
+
+
 # Correctness
 @test 'assert_socket_exist() <file>: returns 0 if <file> socket exists' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/somesocket"

@@ -3,6 +3,13 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+ sudo mknod ${TEST_FIXTURE_ROOT}/dir/blockfile b 89 1
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/blockfile
+}
+
 # Correctness
 @test 'assert_block_not_exist() <file>: returns 0 if <file> block special does not exist' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/file"

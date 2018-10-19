@@ -3,6 +3,13 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+ sudo mknod ${TEST_FIXTURE_ROOT}/dir/test_device c 89 1
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/test_device
+}
+
 # Correctness
 @test 'assert_character_not_exist() <file>: returns 0 if <file> character special file does not exist' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/file"

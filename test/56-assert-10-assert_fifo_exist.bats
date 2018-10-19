@@ -3,6 +3,13 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+  mkfifo ${TEST_FIXTURE_ROOT}/dir/testpipe
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/testpipe
+}
+
 # Correctness
 @test 'assert_fifo_exist() <file>: returns 0 if <file> fifo exists' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/testpipe"

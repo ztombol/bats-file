@@ -13,13 +13,10 @@ fixtures() {
   TEST_RELATIVE_FIXTURE_ROOT=$(bats_trim_filename "${TEST_FIXTURE_ROOT}" TEST_RELATIVE_FIXTURE_ROOT)
 }
 
-setup() {
-  export TEST_MAIN_DIR="${BATS_TEST_DIRNAME}/.."
-  export TEST_DEPS_DIR="${TEST_DEPS_DIR-${TEST_MAIN_DIR}/..}"
+export TEST_MAIN_DIR="${BATS_TEST_DIRNAME}/.."
+export TEST_DEPS_DIR="${TEST_DEPS_DIR-${TEST_MAIN_DIR}/..}"
 
-  # Load dependencies.
-  load "${TEST_DEPS_DIR}/bats-support/load.bash"
-
-  # Load library.
-  load '../load'
-}
+# Load dependencies.
+load "${TEST_DEPS_DIR}/bats-support/load.bash"
+# Load library.
+load '../load'
