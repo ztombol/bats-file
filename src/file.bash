@@ -353,7 +353,7 @@ assert_block_not_exist() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_char_not_exist() {
+assert_character_not_exist() {
   local -r file="$1"
   if [[ -c "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
