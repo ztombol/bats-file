@@ -492,8 +492,29 @@ assert_file_not_executable() {
 
 
 
-
-
+# Fail if the user is not the owner of the given file.. This
+# function is the logical complement of `assert_not_file_owner'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - is not an owner
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_not_file_owner() {
+  local -r file="$1"
+  if [[ -O "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'user is the owner, but it was expected not to be' \
+      | fail
+  fi
+}
 
 
 

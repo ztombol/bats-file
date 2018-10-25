@@ -355,6 +355,24 @@ path : /path/to/executable-file
 --
 ```
 
+### `assert_not_file_owner`
+
+Fail if the user is not the owner of the given file.
+
+```bash
+@test 'assert_not_file_owner() {
+  assert_not_file_owner /path/to/notowner
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- user is the owner, but it was expected not to be --
+path : /path/to/owner
+--
+```
+
 
 
 ## Working with temporary directories
