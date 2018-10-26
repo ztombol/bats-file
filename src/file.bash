@@ -292,6 +292,30 @@ assert_file_permission() {
   fi
 }
 
+# Fail if file is not zero byte. This
+# function is the logical complement of `assert_zero'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - file size is zero byte
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_zero() {
+  local -r file="$1"
+  if [ -s "$file" ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file is greater than 0 byte' \
+      | fail
+  fi
+}
+
 
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
@@ -566,6 +590,30 @@ assert_no_file_permission() {
   fi
 }
 
+
+# Fail if The file size is zero byte. This
+# function is the logical complement of `assert_not_zero'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - size is not 0 byte
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_not_zero() {
+  local -r file="$1"
+  if [[ ! -s "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file is 0 byte, but it was expected not to be' \
+      | fail
+  fi
+}
 
 
 

@@ -1,0 +1,52 @@
+
+63
+down vote
+accepted
+A file is (roughly) three separate things:
+
+An "inode", a metadata structure that keeps track of who owns the file, permissions, and a list of blocks on disk that actually contain the data.
+One or more directory entries (the file names) that point to that inode
+The actual blocks of data themselves
+When you create an empty file, you create only the inode and a directory entry pointing to that inode. Same for sparse files (dd if=/dev/null of=sparse_file bs=10M seek=1).
+
+When you create hardlinks to an existing file, you just create additional directory entries that point to the same inode.
+
+I have simplified things here, but you get the idea.
+
+shareimprove this answer
+edited Mar 29 '17 at 23:18
+
+Monty Harder
+22015
+answered Mar 28 '17 at 15:40
+
+xhienne
+11.8k2553
+2
+nicely stated. while promoting one small conundrum by your "hard-links" paragraph: if one creates a hard-link to a empty file, which you state has no list of blocks, how can that hard-link point to the (same) list of blocks which don't exist? – Theophrastus Mar 28 '17 at 16:02 
+4
+@Theophrastus Good point. I have made made my possible to simplify things. Actually between the list of blocks and the directory entries, there are metadata pertaining to the file (referred to by an inode number) and that contain file attributes (owner, permissions, ...) and extended attributes. The list of blocks is in there. So all the directory entries do not point directly to the list of blocks (the FAT way), but to metadata. – xhienne Mar 28 '17 at 16:16 
+6
+Should be three separate things: A list of blocks that contain data; the blocks themselves; and a directory entry (or entries) that points to the list of blocks. – Wildcard Mar 29 '17 at 2:51
+@Wildcard I've submitted an edit to make it three things, and referred to the inode by its name. Both the inode and directories are metadata; but they're different kinds of metadata. A file always has one inode, and at least one directory entry. That inode may include an empty list of data blocks. – Monty Harder Mar 29 '17 at 22:33
+1
+@Wildcard Even if you're a beginner, understanding the difference between an inode and a directory is important. When someone changes permissions/ownership of "a directory name" and thinks other links to the same inode will retain the old permissions/ownership, Something Very Bad could happen. We don't have to delve into the details of how inodes reference direct blocks, indirect blocks, doubly- and triply-indirect blocks to get that it's a list of blocks. Or that a list can be empty. – Monty Harder Mar 30 '17 at 17:05
+show 2 more comments
+up vote
+23
+down vote
+touch will create an inode, and ls -i or stat will show info about the inode:
+
+$ touch test
+$ ls -i test
+28971114 test
+$ stat test
+  File: ‘test’
+  Size: 0           Blocks: 0          IO Block: 4096   regular empty file
+Device: fc01h/64513d    Inode: 28971114    Links: 1
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/1000)   Gid: ( 1000/1000)
+Access: 2017-03-28 17:38:07.221131925 +0200
+Modify: 2017-03-28 17:38:07.221131925 +0200
+Change: 2017-03-28 17:38:07.221131925 +0200
+ Birth: -
+Notice that test uses 0 blocks. To store the data displayed, the inode uses some bytes. Those bytes are stored in the inode table. Look at the ext2 page for an example of an inode structure.
