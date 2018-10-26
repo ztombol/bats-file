@@ -340,6 +340,53 @@ assert_file_set_group_id() {
   fi
 }
 
+# Fail if user if is not set on file. This
+# function is the logical complement of `assert_file_set_user_id'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - user id is set
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_set_user_id() {
+  local -r file="$1"
+  if [[ ! -u "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'set-user-ID is not set' \
+      | fail
+  fi
+}
+
+# Fail if stickybit not set on file. This
+# function is the logical complement of `assert_sticky_bit'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - stickybit is set
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_sticky_bit() {
+  local -r file="$1"
+  if [[ ! -k "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'stickybit is not set' \
+      | fail
+  fi
+}
 
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
@@ -664,6 +711,54 @@ assert_file_not_set_group_id() {
   fi
 }
 
+
+# Fail if user id is set. This
+# function is the logical complement of `assert_file_not_set_user_id'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - user id is not set
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_not_set_user_id() {
+  local -r file="$1"
+  if [ -u "$file" ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'user id is set, but it was expected not to be' \
+      | fail
+  fi
+}
+
+# Fail if stickybit is set. This
+# function is the logical complement of `assert_not_sticky_bit'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - stickybit not set
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_not_sticky_bit() {
+  local -r file="$1"
+  if [ -k "$file" ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'stickybit is set, but it was expected not to be' \
+      | fail
+  fi
+}
 
 
 

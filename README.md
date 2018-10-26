@@ -208,6 +208,24 @@ path : /path/to/notowner
 --
 ```
 
+### `assert_not_file_owner`
+
+Fail if the user is not the owner of the given file.
+
+```bash
+@test 'assert_not_file_owner() {
+  assert_not_file_owner /path/to/notowner
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- user is the owner, but it was expected not to be --
+path : /path/to/owner
+--
+```
+
 ### `assert_file_permission`
 
 Fail if file does not have permissions 777.
@@ -223,6 +241,24 @@ On failure, the path is displayed.
 ```
 -- file does not have permissions 777 --
 path : /path/to/nopermission
+--
+```
+
+### `assert_no_file_permission`
+
+Fail if the file has permissions 777.
+
+```bash
+@test 'assert_no_file_permission() {
+  assert_no_file_permission /path/to/nopermission
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file has permissions 777, but it was expected not to have --
+path : /path/to/permission
 --
 ```
 
@@ -244,6 +280,24 @@ path : /path/to/notzerobyte
 --
 ```
 
+### `assert_not_zero`
+
+Fail if file size is zero byte.
+
+```bash
+@test 'assert_not_zero() {
+  assert_not_zero /path/to/notzerobyte
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is 0 byte, but it was expected not to be --
+path : /path/to/zerobyte
+--
+```
+
 ### `assert_file_set_group_id`
 
 Fail if group id is not set.
@@ -259,6 +313,96 @@ On failure, the path is displayed.
 ```
 -- group id is not set --
 path : /path/to/groupidnotset
+--
+```
+
+### `assert_file_not_set_group_id`
+
+Fail if group id is set.
+
+```bash
+@test 'assert_file_not_set_group_id() {
+  assert_file_not_set_group_id /path/to/groupidnotset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- group id is set, but it was expected not to be --
+path : /path/to/groupdidset
+--
+```
+
+### `assert_file_set_user_id`
+
+Fail if user id is not set.
+
+```bash
+@test 'assert_file_set_user_id() {
+  assert_file_set_user_id /path/to/useridset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- user id is not set --
+path : /path/to/useridnotset
+--
+```
+
+### `assert_file_not_set_user_id`
+
+Fail if user id is set.
+
+```bash
+@test 'assert_file_not_set_user_id() {
+  assert_file_not_set_user_id /path/to/groupidnotset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- user id is set, but it was expected not to be --
+path : /path/to/userdidset
+--
+```
+
+### `assert_sticky_bit`
+
+Fail if stickybit is not set.
+
+```bash
+@test 'assert_sticky_bit() {
+  assert_sticky_bit /path/to/stickybit
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- stickybit is not set --
+path : /path/to/notstickybit
+--
+```
+
+### `assert_not_sticky_bit`
+
+Fail if stickybit is set.
+
+```bash
+@test 'assert_not_sticky_bit() {
+  assert_not_sticky_bit /path/to/notstickybit
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- stickybit is set, but it was expected not to be --
+path : /path/to/stickybit
 --
 ```
 
@@ -408,77 +552,8 @@ path : /path/to/executable-file
 --
 ```
 
-### `assert_not_file_owner`
 
-Fail if the user is not the owner of the given file.
 
-```bash
-@test 'assert_not_file_owner() {
-  assert_not_file_owner /path/to/notowner
-}
-```
-
-On failure, the path is displayed.
-
-```
--- user is the owner, but it was expected not to be --
-path : /path/to/owner
---
-```
-
-### `assert_no_file_permission`
-
-Fail if the file has permissions 777.
-
-```bash
-@test 'assert_no_file_permission() {
-  assert_no_file_permission /path/to/nopermission
-}
-```
-
-On failure, the path is displayed.
-
-```
--- file has permissions 777, but it was expected not to have --
-path : /path/to/permission
---
-```
-
-### `assert_not_zero`
-
-Fail if file size is zero byte.
-
-```bash
-@test 'assert_not_zero() {
-  assert_not_zero /path/to/notzerobyte
-}
-```
-
-On failure, the path is displayed.
-
-```
--- file is 0 byte, but it was expected not to be --
-path : /path/to/zerobyte
---
-```
-
-### `assert_file_not_set_group_id`
-
-Fail if group id is set.
-
-```bash
-@test 'assert_file_not_set_group_id() {
-  assert_file_not_set_group_id /path/to/groupidnotset
-}
-```
-
-On failure, the path is displayed.
-
-```
--- group id is set, but it was expected not to be --
-path : /path/to/groupdidset
---
-```
 
 
 ## Working with temporary directories
