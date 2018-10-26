@@ -226,6 +226,42 @@ path : /path/to/nopermission
 --
 ```
 
+### `assert_zero`
+
+Fail if file is not zero byte.
+
+```bash
+@test 'assert_zero() {
+  assert_zero /path/to/zerobyte
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is not zero byte --
+path : /path/to/notzerobyte
+--
+```
+
+### `assert_file_set_group_id`
+
+Fail if group id is not set.
+
+```bash
+@test 'assert_file_set_group_id() {
+  assert_file_set_group_id /path/to/groupidset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- group id is not set --
+path : /path/to/groupidnotset
+--
+```
+
 ### `assert_file_not_exist`
 
 Fail if the given file or directory exists.
@@ -405,6 +441,42 @@ On failure, the path is displayed.
 ```
 -- file has permissions 777, but it was expected not to have --
 path : /path/to/permission
+--
+```
+
+### `assert_not_zero`
+
+Fail if file size is zero byte.
+
+```bash
+@test 'assert_not_zero() {
+  assert_not_zero /path/to/notzerobyte
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is 0 byte, but it was expected not to be --
+path : /path/to/zerobyte
+--
+```
+
+### `assert_file_not_set_group_id`
+
+Fail if group id is set.
+
+```bash
+@test 'assert_file_not_set_group_id() {
+  assert_file_not_set_group_id /path/to/groupidnotset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- group id is set, but it was expected not to be --
+path : /path/to/groupdidset
 --
 ```
 

@@ -316,6 +316,30 @@ assert_zero() {
   fi
 }
 
+# Fail if group if is not set on file. This
+# function is the logical complement of `assert_file_set_group_id'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - group id is set
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_set_group_id() {
+  local -r file="$1"
+  if [[ ! -g "$file" ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'set-group-ID is not set' \
+      | fail
+  fi
+}
+
 
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
@@ -616,6 +640,29 @@ assert_not_zero() {
 }
 
 
+# Fail if group id is set. This
+# function is the logical complement of `assert_file_not_set_group_id'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - group id is not set
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_not_set_group_id() {
+  local -r file="$1"
+  if [ -g "$file" ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'group id is set, but it was expected not to be' \
+      | fail
+  fi
+}
 
 
 
