@@ -208,6 +208,23 @@ path : /path/to/notowner
 --
 ```
 
+### `assert_file_permission`
+
+Fail if file does not have permissions 777.
+
+```bash
+@test 'assert_file_permission() {
+  assert_file_permission /path/to/permission
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file does not have permissions 777 --
+path : /path/to/nopermission
+--
+```
 
 ### `assert_file_not_exist`
 
@@ -373,6 +390,23 @@ path : /path/to/owner
 --
 ```
 
+### `assert_no_file_permission`
+
+Fail if the file has permissions 777.
+
+```bash
+@test 'assert_no_file_permission() {
+  assert_no_file_permission /path/to/nopermission
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file has permissions 777, but it was expected not to have --
+path : /path/to/permission
+--
+```
 
 
 ## Working with temporary directories

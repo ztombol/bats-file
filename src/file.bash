@@ -262,11 +262,35 @@ assert_file_owner() {
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate 'user is not the owner of a file' \
+      | batslib_decorate 'user is not the owner of the file' \
       | fail
   fi
 }
 
+
+# Fail if file does not have permissions 777. This
+# function is the logical complement of `assert_file_permission'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - file has permissions 777
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_file_permission() {
+  local -r file="$1"
+  if [ ! `stat -f '%A' $1` -eq 777 ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file does not have permissions 777' \
+      | fail
+  fi
+}
 
 
 # Fail and display path of the file (or directory) if it exists. This
@@ -516,6 +540,31 @@ assert_not_file_owner() {
   fi
 }
 
+
+
+# Fail if the file has permissions 777. This
+# function is the logical complement of `assert_no_file_permission'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - path
+# Returns:
+#   0 - does not have permissions 777
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_no_file_permission() {
+  local -r file="$1"
+    if [[ `stat -f '%A' $1` -eq 777 ]]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
+      | batslib_decorate 'file has permissions 777, but it was expected not to have' \
+      | fail
+  fi
+}
 
 
 
