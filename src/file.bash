@@ -217,7 +217,6 @@ assert_fifo_exist() {
   fi
 }
 
-
 # Fail and display path of the named file if it is not executable.
 # This function is the logical complement of `assert_file_not_executable'.
 #
@@ -243,6 +242,30 @@ assert_file_executable() {
   fi
 }
 
+# This function is the logical complement of `assert_files_not_equal'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - 1st path
+#   $2 - 2nd path
+# Returns:
+#   0 - named files are the same
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_files_equal() {
+  local -r file1="$1"
+  local -r file2="$2"
+  if ! `cmp -s "$file1" "$file2"` ; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file1/$rem/$add}" 'path' "${file2/$rem/$add}" \
+      | batslib_decorate 'files are not the same' \
+      | fail
+  fi
+}
 
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
@@ -460,6 +483,31 @@ assert_file_not_executable() {
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
       | batslib_decorate 'file is executable, but it was expected to be not executable' \
+      | fail
+  fi
+}
+
+# This function is the logical complement of `assert_files_equal'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - 1st path
+#   $2 - 2nd path
+# Returns:
+#   0 - named files are the same
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_files_not_equal() {
+  local -r file1="$1"
+  local -r file2="$2"
+  if `cmp -s "$file1" "$file2"` ; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file1/$rem/$add}" 'path' "${file2/$rem/$add}" \
+      | batslib_decorate 'files are the same' \
       | fail
   fi
 }
