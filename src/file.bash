@@ -217,7 +217,6 @@ assert_fifo_exist() {
   fi
 }
 
-
 # Fail and display path of the named file if it is not executable.
 # This function is the logical complement of `assert_file_not_executable'.
 #
@@ -243,7 +242,106 @@ assert_file_executable() {
   fi
 }
 
+# This function is the logical complement of `assert_files_not_equal'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - 1st path
+#   $2 - 2nd path
+# Returns:
+#   0 - named files are the same
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_files_equal() {
+  local -r file1="$1"
+  local -r file2="$2"
+  if ! `cmp -s "$file1" "$file2"` ; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file1/$rem/$add}" 'path' "${file2/$rem/$add}" \
+      | batslib_decorate 'files are not the same' \
+      | fail
+  fi
+}
 
+# Fail and display path of the file (or directory) if it is not a symlink.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - source
+#   $2 - destination
+# Returns:
+#   0 - link to correct target
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_symlink_to() {
+  local -r sourcefile="$1"
+  local -r link="$2"
+# If OS is linux
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    if [ ! -L $link   ]; then
+      local -r rem="$BATSLIB_FILE_PATH_REM"
+      local -r add="$BATSLIB_FILE_PATH_ADD"
+      batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+        | batslib_decorate 'file is not a symbolic link' \
+        | fail
+      fi
+      local -r realsource=$( readlink -f "$link" )
+      if [ ! "$realsource" = "$sourcefile"  ]; then
+        local -r rem="$BATSLIB_FILE_PATH_REM"
+        local -r add="$BATSLIB_FILE_PATH_ADD"
+        batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+        | batslib_decorate 'symbolic link does not have the correct target' \
+        | fail
+      fi
+# If OS is OSX
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+
+function readlinkf() {
+TARGET_FILE=$1
+
+cd `dirname $TARGET_FILE`
+TARGET_FILE=`basename $TARGET_FILE`
+
+# Iterate down a (possible) chain of symlinks
+while [ -L "$TARGET_FILE" ]
+do
+    TARGET_FILE=`readlink $TARGET_FILE`
+    cd `dirname $TARGET_FILE`
+    TARGET_FILE=`basename $TARGET_FILE`
+done
+
+# Compute the canonicalized name by finding the physical path
+# for the directory we're in and appending the target file.
+PHYS_DIR=`pwd -P`
+RESULT=$PHYS_DIR/$TARGET_FILE
+echo $RESULT
+}
+
+
+  if [ ! -L $link   ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+      | batslib_decorate 'file is not a symbolic link' \
+      | fail
+    fi
+    local -r realsource=$( readlinkf "$link" )
+    if [ ! "$realsource" = "$sourcefile"  ]; then
+      local -r rem="$BATSLIB_FILE_PATH_REM"
+      local -r add="$BATSLIB_FILE_PATH_ADD"
+      batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+      | batslib_decorate 'symbolic link does not have the correct target' \
+      | fail
+    fi
+fi
+    }
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
 #
@@ -463,3 +561,102 @@ assert_file_not_executable() {
       | fail
   fi
 }
+
+# This function is the logical complement of `assert_files_equal'.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - 1st path
+#   $2 - 2nd path
+# Returns:
+#   0 - named files are the same
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_files_not_equal() {
+  local -r file1="$1"
+  local -r file2="$2"
+  if `cmp -s "$file1" "$file2"` ; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${file1/$rem/$add}" 'path' "${file2/$rem/$add}" \
+      | batslib_decorate 'files are the same' \
+      | fail
+  fi
+}
+
+# Fail and display path of the file (or directory) if it is a symlink.
+#
+# Globals:
+#   BATSLIB_FILE_PATH_REM
+#   BATSLIB_FILE_PATH_ADD
+# Arguments:
+#   $1 - source
+#   $2 - destination
+# Returns:
+#   0 - link to correct target
+#   1 - otherwise
+# Outputs:
+#   STDERR - details, on failure
+assert_not_symlink_to() {
+  local -r sourcefile="$1"
+  local -r link="$2"
+# If OS is linux
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    if [ -L $link   ]; then
+      local -r rem="$BATSLIB_FILE_PATH_REM"
+      local -r add="$BATSLIB_FILE_PATH_ADD"
+      batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+        | batslib_decorate 'file is not a symbolic link' \
+        | fail
+      fi
+      local -r realsource=$( readlink -f "$link" )
+      if [ ! "$realsource" = "$sourcefile"  ]; then
+        local -r rem="$BATSLIB_FILE_PATH_REM"
+        local -r add="$BATSLIB_FILE_PATH_ADD"
+        batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+        | batslib_decorate 'symbolic link does not have the correct target' \
+        | fail
+      fi
+# If OS is OSX
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+
+function readlinkf() {
+TARGET_FILE=$1
+
+cd `dirname $TARGET_FILE`
+TARGET_FILE=`basename $TARGET_FILE`
+
+# Iterate down a (possible) chain of symlinks
+while [ -L "$TARGET_FILE" ]
+do
+    TARGET_FILE=`readlink $TARGET_FILE`
+    cd `dirname $TARGET_FILE`
+    TARGET_FILE=`basename $TARGET_FILE`
+done
+
+# Compute the canonicalized name by finding the physical path
+# for the directory we're in and appending the target file.
+PHYS_DIR=`pwd -P`
+RESULT=$PHYS_DIR/$TARGET_FILE
+echo $RESULT
+}
+
+
+  if [ -L $link   ]; then
+    local -r rem="$BATSLIB_FILE_PATH_REM"
+    local -r add="$BATSLIB_FILE_PATH_ADD"
+    batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+      | batslib_decorate 'file is a symbolic link' \
+      | fail
+    fi
+    local -r realsource=$( readlinkf "$link" )
+    if [ "$realsource" = "$sourcefile"  ]; then
+      batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+      | batslib_decorate 'symbolic link does have the correct target' \
+      | fail
+    fi
+fi
+    }

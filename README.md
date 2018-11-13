@@ -177,7 +177,7 @@ path : /path/to/non-existent-fifo-file
 Fail if the given file is not executable.
 
 ```bash
-@test 'assert_file_executable() {
+@test 'assert_file_executable()' {
   assert_file_executable /path/to/executable-file
 }
 ```
@@ -190,12 +190,42 @@ path : /path/to/executable-file
 --
 ```
 
+### `assert_files_equal`
+
+Fail if the given files are not the same.
+
+```bash
+@test 'assert_files_equal()' {
+  assert_files_equal /path/to/file1 /path/to/file2
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- files are not the same --
+path1 : /path/to/file
+path2 : /path/to/same_file
+--
+```
+### `assert_symlink_to`
+Fail if the given file is not a symbolic to a defined target.
+```bash
+@test 'assert_symlink_to() {
+  assert_symlink_to /path/to/source-file /path/to/symlink
+}
+```
+On failure, the path is displayed.
+```
+-- symbolic link does not have the correct target --
+path : /path/to/symlink
+--
+```
 
 
 ### `assert_file_not_exist`
 
 Fail if the given file or directory exists.
-
 
 ```bash
 @test 'assert_file_not_exist() {
@@ -306,7 +336,7 @@ path : /path/to/existing-socket
 Fail if the given named pipe exists.
 
 ```bash
-@test 'assert_fifo_not_exist() {
+@test 'assert_fifo_not_exist()' {
   assert_file_not_exist /path/to/existing-fifo-file
 }
 ```
@@ -325,7 +355,7 @@ path : /path/to/existing-fifo-file
 Fail if the given file is executable.
 
 ```bash
-@test 'assert_file_not_executable() {
+@test 'assert_file_not_executable()' {
   assert_file_not_executable /path/to/executable-file
 }
 ```
@@ -339,6 +369,41 @@ path : /path/to/executable-file
 ```
 
 
+### `assert_files_not_equal`
+
+Fail if the given files are the same.
+
+```bash
+@test 'assert_files_not_equal()' {
+  assert_files_not_equal /path/to/file1 /path/to/file2
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- files are the same --
+path1 : /path/to/file
+path2 : /path/to/same_file
+--
+```
+
+### `assert_not_symlink_to`
+Fail if the given file is a symbolic to a defined target.
+```bash
+@test 'assert_not_symlink_to() {
+  assert_not_symlink_to /path/to/source-file /path/to/symlink
+}
+```
+On failure, the path is displayed.
+```
+-- file is a symbolic link --
+path : /path/to/symlink
+--
+-- symbolic link does have the correct target --
+path : /path/to/symlink
+--
+```
 
 ## Working with temporary directories
 
