@@ -612,9 +612,7 @@ if [[ `uname` == "Linux" ]]; then
         | fail
       fi
       local -r realsource=$( readlink -f "$link" )
-      if [ ! "$realsource" = "$sourcefile"  ]; then
-        local -r rem="$BATSLIB_FILE_PATH_REM"
-        local -r add="$BATSLIB_FILE_PATH_ADD"
+      if [ "$realsource" = "$sourcefile"  ]; then
         batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
         | batslib_decorate 'symbolic link does have the correct target' \
         | fail
