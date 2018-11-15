@@ -608,7 +608,7 @@ if [[ `uname` == "Linux" ]]; then
       local -r rem="$BATSLIB_FILE_PATH_REM"
       local -r add="$BATSLIB_FILE_PATH_ADD"
       batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
-        | batslib_decorate 'file is not a symbolic link' \
+        | batslib_decorate 'file is a symbolic link' \
         | fail
       fi
       local -r realsource=$( readlink -f "$link" )
@@ -616,7 +616,7 @@ if [[ `uname` == "Linux" ]]; then
         local -r rem="$BATSLIB_FILE_PATH_REM"
         local -r add="$BATSLIB_FILE_PATH_ADD"
         batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
-        | batslib_decorate 'symbolic link does not have the correct target' \
+        | batslib_decorate 'symbolic link does have the correct target' \
         | fail
       fi
 # If OS is OSX
