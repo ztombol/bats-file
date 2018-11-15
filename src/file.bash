@@ -284,7 +284,7 @@ assert_symlink_to() {
   local -r sourcefile="$1"
   local -r link="$2"
 # If OS is linux
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+if [[ `uname` == "Linux" ]]; then
     if [ ! -L $link   ]; then
       local -r rem="$BATSLIB_FILE_PATH_REM"
       local -r add="$BATSLIB_FILE_PATH_ADD"
@@ -301,7 +301,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
         | fail
       fi
 # If OS is OSX
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ `uname` == "Darwin" ]]; then
 
 function readlinkf() {
 TARGET_FILE=$1
@@ -603,7 +603,7 @@ assert_not_symlink_to() {
   local -r sourcefile="$1"
   local -r link="$2"
 # If OS is linux
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+if [[ `uname` == "Linux" ]]; then
     if [ -L $link   ]; then
       local -r rem="$BATSLIB_FILE_PATH_REM"
       local -r add="$BATSLIB_FILE_PATH_ADD"
@@ -620,7 +620,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
         | fail
       fi
 # If OS is OSX
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ `uname` == "Darwin" ]]; then
 
 function readlinkf() {
 TARGET_FILE=$1
