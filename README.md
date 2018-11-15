@@ -208,6 +208,7 @@ path1 : /path/to/file
 path2 : /path/to/same_file
 --
 ```
+
 ### `assert_symlink_to`
 Fail if the given file is not a symbolic to a defined target.
 ```bash
@@ -221,7 +222,6 @@ On failure, the path is displayed.
 path : /path/to/symlink
 --
 ```
-
 
 ### `assert_file_not_exist`
 

@@ -324,7 +324,6 @@ RESULT=$PHYS_DIR/$TARGET_FILE
 echo $RESULT
 }
 
-
   if [ ! -L $link   ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
