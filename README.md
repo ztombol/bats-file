@@ -192,11 +192,11 @@ path : /path/to/executable-file
 
 ### `assert_file_owner`
 
-Fail if the user is not the owner of the given file.
+Fail if given user is not the owner of the given file.
 
 ```bash
 @test 'assert_file_owner() {
-  assert_file_owner /path/to/owner
+  assert_file_owner $owner /path/to/owner
 }
 ```
 
@@ -205,60 +205,64 @@ On failure, the path is displayed.
 ```
 -- user is not the owner of the file --
 path : /path/to/notowner
+owner : user
 --
 ```
 
 ### `assert_not_file_owner`
 
-Fail if the user is not the owner of the given file.
+Fail if given user is the owner of the given file.
 
 ```bash
 @test 'assert_not_file_owner() {
-  assert_not_file_owner /path/to/notowner
+  assert_not_file_owner $owner /path/to/notowner
 }
 ```
 
 On failure, the path is displayed.
 
 ```
--- user is the owner, but it was expected not to be --
+-- Fail if given user is the owner, but it was expected not to be --
 path : /path/to/owner
+owner : $owner
 --
 ```
 
 ### `assert_file_permission`
 
-Fail if file does not have permissions 777.
+Fail if given file does not have permissions 777.
 
 ```bash
 @test 'assert_file_permission() {
-  assert_file_permission /path/to/permission
+  assert_file_permission $permission /path/to/permission
 }
 ```
 
 On failure, the path is displayed.
 
 ```
--- file does not have permissions 777 --
+-- given file does not have permissions 777 --
 path : /path/to/nopermission
+permission: $permission
 --
 ```
 
 ### `assert_no_file_permission`
 
-Fail if the file has permissions 777.
+Fail if given file has permissions 777.
 
 ```bash
 @test 'assert_no_file_permission() {
-  assert_no_file_permission /path/to/nopermission
+  assert_no_file_permission $permission /path/to/nopermission
 }
 ```
 
 On failure, the path is displayed.
 
 ```
--- file has permissions 777, but it was expected not to have --
+-- given file has permissions 777, but it was expected not to have --
 path : /path/to/permission
+permission : $permission
 --
 ```
 

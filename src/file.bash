@@ -257,12 +257,13 @@ assert_file_executable() {
 # Outputs:
 #   STDERR - details, on failure
 assert_file_owner() {
-  local -r file="$1"
-  if [[ ! -O "$file" ]]; then
+  local -r owner="$1"
+  local -r file="$2"
+  if [ `stat -f '%Su' "$file"` != "$owner" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate 'user is not the owner of the file' \
+      | batslib_decorate "user $owner is not the owner of the file" \
       | fail
   fi
 }
@@ -282,12 +283,13 @@ assert_file_owner() {
 # Outputs:
 #   STDERR - details, on failure
 assert_file_permission() {
-  local -r file="$1"
-  if [ ! `stat -f '%A' $1` -eq 777 ]; then
+  local -r permission="$1"
+  local -r file="$2"
+  if [ `stat -f '%A' "$file"` -ne "$permission" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate 'file does not have permissions 777' \
+      | batslib_decorate "file does not have permissions $permission" \
       | fail
   fi
 }
@@ -625,12 +627,13 @@ assert_file_not_executable() {
 # Outputs:
 #   STDERR - details, on failure
 assert_not_file_owner() {
-  local -r file="$1"
-  if [[ -O "$file" ]]; then
+  local -r owner="$1"
+  local -r file="$2"
+  if [ `stat -f '%Su' "$file"` = "$owner" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate 'user is the owner, but it was expected not to be' \
+      | batslib_decorate "given user is the $owner, but it was expected not to be" \
       | fail
   fi
 }
@@ -651,12 +654,13 @@ assert_not_file_owner() {
 # Outputs:
 #   STDERR - details, on failure
 assert_no_file_permission() {
-  local -r file="$1"
-    if [[ `stat -f '%A' $1` -eq 777 ]]; then
+  local -r permission="$1"
+  local -r file="$2"
+    if [ `stat -f '%A' "$file"` -eq "$permission" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate 'file has permissions 777, but it was expected not to have' \
+      | batslib_decorate "file has permissions $permission, but it was expected not to have" \
       | fail
   fi
 }
