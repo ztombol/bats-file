@@ -11,9 +11,9 @@ fixtures 'exist'
   [ "${#lines[@]}" -eq 0 ]
 }
 
-@test 'assert_link_exist()() <file>: returns 1 and displays path if <file>symbolic link does not exist' {
+@test 'assert_link_exist() <file>: returns 1 and displays path if <file>symbolic link does not exist' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/ "
-  run assert_link_exist() "$file"
+  run assert_link_exist "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- symbolic link does not exist --' ]
