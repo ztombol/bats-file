@@ -230,7 +230,7 @@ owner : $owner
 
 ### `assert_file_permission`
 
-Fail if given file does not have permissions 777.
+Fail if given file does not have given permission.
 
 ```bash
 @test 'assert_file_permission() {
@@ -247,13 +247,13 @@ permission: $permission
 --
 ```
 
-### `assert_no_file_permission`
+### `assert_not_file_permission`
 
-Fail if given file has permissions 777.
+Fail if given file has given permission.
 
 ```bash
-@test 'assert_no_file_permission() {
-  assert_no_file_permission $permission /path/to/nopermission
+@test 'assert_not_file_permission() {
+  assert_not_file_permission $permission /path/to/nopermission
 }
 ```
 

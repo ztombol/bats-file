@@ -4,18 +4,18 @@ load 'test_helper'
 fixtures 'exist'
 
 # Correctness
-@test 'assert_no_file_permission() <file>: returns 0 if <file> file does not have permissions 777' {
+@test 'assert_not_file_permission() <file>: returns 0 if <file> file does not have permissions 777' {
   local -r permission="777"
   local -r file="${TEST_FIXTURE_ROOT}/dir/nopermission"
-  run assert_no_file_permission "$permission" "$file"
+  run assert_not_file_permission "$permission" "$file"
   [ "$status" -eq 0 ]
   [ "${#lines[@]}" -eq 0 ]
 }
 
-@test 'assert_no_file_permission() <file>: returns 1 and displays path if <file> file has permissions 777, but it was expected not to have' {
+@test 'assert_not_file_permission() <file>: returns 1 and displays path if <file> file has permissions 777, but it was expected not to have' {
   local -r permission="777"
   local -r file="${TEST_FIXTURE_ROOT}/dir/permission"
-  run assert_no_file_permission "$permission" "$file"
+  run assert_not_file_permission "$permission" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- file has permissions 777, but it was expected not to have --' ]
@@ -25,12 +25,12 @@ fixtures 'exist'
 
 
 # Transforming path
-@test 'assert_no_file_permission() <file>: replace prefix of displayed path' {
+@test 'assert_not_file_permission() <file>: replace prefix of displayed path' {
   local -r BATSLIB_FILE_PATH_REM="#${TEST_FIXTURE_ROOT}"
   local -r BATSLIB_FILE_PATH_ADD='..'
   local -r permission="777"
   local -r file="${TEST_FIXTURE_ROOT}/dir/permission"
-  run assert_no_file_permission "$permission" "$file"
+  run assert_not_file_permission "$permission" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- file has permissions 777, but it was expected not to have --' ]
@@ -38,12 +38,12 @@ fixtures 'exist'
   [ "${lines[2]}" == '--' ]
 }
 
-@test 'assert_no_file_permission() <file>: replace suffix of displayed path' {
+@test 'assert_not_file_permission() <file>: replace suffix of displayed path' {
   local -r BATSLIB_FILE_PATH_REM='%dir/permission'
   local -r BATSLIB_FILE_PATH_ADD='..'
   local -r permission="777"
   local -r file="${TEST_FIXTURE_ROOT}/dir/permission"
-  run assert_no_file_permission "$permission" "$file"
+  run assert_not_file_permission "$permission" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- file has permissions 777, but it was expected not to have --' ]
@@ -51,12 +51,12 @@ fixtures 'exist'
   [ "${lines[2]}" == '--' ]
 }
 
-@test 'assert_no_file_permission() <file>: replace infix of displayed path' {
+@test 'assert_not_file_permission() <file>: replace infix of displayed path' {
   local -r BATSLIB_FILE_PATH_REM='dir/permission'
   local -r BATSLIB_FILE_PATH_ADD='..'
   local -r permission="777"
   local -r file="${TEST_FIXTURE_ROOT}/dir/permission"
-  run assert_no_file_permission "$permission" "$file"
+  run assert_not_file_permission "$permission" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- file has permissions 777, but it was expected not to have --' ]

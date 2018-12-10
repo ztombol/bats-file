@@ -301,7 +301,7 @@ assert_file_owner() {
 # Arguments:
 #   $1 - path
 # Returns:
-#   0 - file has permissions 777
+#   0 - file has given permissions
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
@@ -721,7 +721,7 @@ assert_not_file_owner() {
   fi
 }
 
-# Fail if the file has permissions 777. This
+# Fail if the file has given permissions. This
 # function is the logical complement of `assert_file_permission'.
 #
 # Globals:
@@ -730,11 +730,11 @@ assert_not_file_owner() {
 # Arguments:
 #   $1 - path
 # Returns:
-#   0 - does not have permissions 777
+#   0 - does not have given permissions
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_no_file_permission() {
+assert_not_file_permission() {
   local -r permission="$1"
   local -r file="$2"
     if [ `stat -f '%A' "$file"` -eq "$permission" ]; then
