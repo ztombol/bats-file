@@ -241,6 +241,7 @@ assert_file_executable() {
   fi
 }
 
+# Fail and display path of both files if they are not equal.
 # This function is the logical complement of `assert_files_not_equal'.
 #
 # Globals:
@@ -267,7 +268,7 @@ assert_files_equal() {
 }
 
 # Fail and display path of the user is not the owner of a file. This
-# function is the logical complement of `assert_file_owner'.
+# function is the logical complement of `assert_file_not_owner'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -291,9 +292,8 @@ assert_file_owner() {
   fi
 }
 
-
-# Fail if file does not have permissions 777. This
-# function is the logical complement of `assert_file_permission'.
+# Fail if file does not have given permissions. This
+# function is the logical complement of `assert_file_not_permission'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -318,7 +318,7 @@ assert_file_permission() {
 }
 
 # Fail if file is not zero byte. This
-# function is the logical complement of `assert_zero'.
+# function is the logical complement of `assert_size_not_zero'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -330,7 +330,7 @@ assert_file_permission() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_zero() {
+assert_size_zero() {
   local -r file="$1"
   if [ -s "$file" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -342,7 +342,7 @@ assert_zero() {
 }
 
 # Fail if group if is not set on file. This
-# function is the logical complement of `assert_file_set_group_id'.
+# function is the logical complement of `assert_file_not_group_id_set'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -354,7 +354,7 @@ assert_zero() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_file_set_group_id() {
+assert_file_group_id_set() {
   local -r file="$1"
   if [[ ! -g "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -366,7 +366,7 @@ assert_file_set_group_id() {
 }
 
 # Fail if user if is not set on file. This
-# function is the logical complement of `assert_file_set_user_id'.
+# function is the logical complement of `assert_file_not_user_id_set'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -378,7 +378,7 @@ assert_file_set_group_id() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_file_set_user_id() {
+assert_file_user_id_set() {
   local -r file="$1"
   if [[ ! -u "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -390,7 +390,7 @@ assert_file_set_user_id() {
 }
 
 # Fail if stickybit not set on file. This
-# function is the logical complement of `assert_sticky_bit'.
+# function is the logical complement of `assert_no_sticky_bit'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -413,7 +413,8 @@ assert_sticky_bit() {
   fi
 }
 
-# Fail and display path of the file (or directory) if it is not a symlink.
+# Fail and display path of the file (or directory) if it is not a symlink to given destination.
+# function is the logical complement of `assert_not_symlink_to`
 #   $1 - source
 #   $2 - destination
 # Returns:
@@ -424,46 +425,42 @@ assert_sticky_bit() {
 assert_symlink_to() {
   local -r sourcefile="$1"
   local -r link="$2"
-# If OS is linux
-if [[ `uname` == "Linux" ]]; then
+  # If OS is linux
+  if [[ `uname` == "Linux" ]]; then
     if [ ! -L $link   ]; then
       local -r rem="$BATSLIB_FILE_PATH_REM"
       local -r add="$BATSLIB_FILE_PATH_ADD"
       batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
         | batslib_decorate 'file is not a symbolic link' \
         | fail
-      fi
-      local -r realsource=$( readlink -f "$link" )
-      if [ ! "$realsource" = "$sourcefile"  ]; then
-        local -r rem="$BATSLIB_FILE_PATH_REM"
-        local -r add="$BATSLIB_FILE_PATH_ADD"
-        batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+    fi
+    local -r realsource=$( readlink -f "$link" )
+    if [ ! "$realsource" = "$sourcefile"  ]; then
+      local -r rem="$BATSLIB_FILE_PATH_REM"
+      local -r add="$BATSLIB_FILE_PATH_ADD"
+      batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
         | batslib_decorate 'symbolic link does not have the correct target' \
         | fail
-      fi
-# If OS is OSX
-elif [[ `uname` == "Darwin" ]]; then
-
-function readlinkf() {
-TARGET_FILE=$1
-
-cd `dirname $TARGET_FILE`
-TARGET_FILE=`basename $TARGET_FILE`
-
-# Iterate down a (possible) chain of symlinks
-while [ -L "$TARGET_FILE" ]
-do
-    TARGET_FILE=`readlink $TARGET_FILE`
+    fi
+  # If OS is OSX
+  elif [[ `uname` == "Darwin" ]]; then
+    function readlinkf() {
+    TARGET_FILE=$1
     cd `dirname $TARGET_FILE`
     TARGET_FILE=`basename $TARGET_FILE`
-done
-
-# Compute the canonicalized name by finding the physical path
-# for the directory we're in and appending the target file.
-PHYS_DIR=`pwd -P`
-RESULT=$PHYS_DIR/$TARGET_FILE
-echo $RESULT
-}
+    # Iterate down a (possible) chain of symlinks
+    while [ -L "$TARGET_FILE" ]
+    do
+      TARGET_FILE=`readlink $TARGET_FILE`
+      cd `dirname $TARGET_FILE`
+      TARGET_FILE=`basename $TARGET_FILE`
+    done
+    # Compute the canonicalized name by finding the physical path
+    # for the directory we're in and appending the target file.
+    PHYS_DIR=`pwd -P`
+    RESULT=$PHYS_DIR/$TARGET_FILE
+    echo $RESULT
+  }
 
   if [ ! -L $link   ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -480,8 +477,8 @@ echo $RESULT
       | batslib_decorate 'symbolic link does not have the correct target' \
       | fail
     fi
-fi
-    }
+  fi
+}
 
 # Fail and display path of the file (or directory) if it exists. This
 # function is the logical complement of `assert_exist'.
@@ -700,7 +697,7 @@ assert_file_not_executable() {
 }
 
 # Fail if the user is not the owner of the given file.. This
-# function is the logical complement of `assert_not_file_owner'.
+# function is the logical complement of `assert_file_owner'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -725,7 +722,7 @@ assert_not_file_owner() {
 }
 
 # Fail if the file has permissions 777. This
-# function is the logical complement of `assert_no_file_permission'.
+# function is the logical complement of `assert_file_permission'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -770,7 +767,7 @@ assert_files_not_equal() {
 }
 
 # Fail if The file size is zero byte. This
-# function is the logical complement of `assert_not_zero'.
+# function is the logical complement of `assert_size_zero'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -782,7 +779,7 @@ assert_files_not_equal() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_not_zero() {
+assert_size_not_zero() {
   local -r file="$1"
   if [[ ! -s "$file" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -795,7 +792,7 @@ assert_not_zero() {
 
 
 # Fail if group id is set. This
-# function is the logical complement of `assert_file_not_set_group_id'.
+# function is the logical complement of `assert_file_group_id_set'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -807,7 +804,7 @@ assert_not_zero() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_file_not_set_group_id() {
+assert_file_not_group_id_set() {
   local -r file="$1"
   if [ -g "$file" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -820,7 +817,7 @@ assert_file_not_set_group_id() {
 
 
 # Fail if user id is set. This
-# function is the logical complement of `assert_file_not_set_user_id'.
+# function is the logical complement of `assert_file_user_id_set'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -832,7 +829,7 @@ assert_file_not_set_group_id() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_file_not_set_user_id() {
+assert_file_not_user_id_set() {
   local -r file="$1"
   if [ -u "$file" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -844,7 +841,7 @@ assert_file_not_set_user_id() {
 }
 
 # Fail if stickybit is set. This
-# function is the logical complement of `assert_not_sticky_bit'.
+# function is the logical complement of `assert_sticky_bit'.
 #
 # Globals:
 #   BATSLIB_FILE_PATH_REM
@@ -856,7 +853,7 @@ assert_file_not_set_user_id() {
 #   1 - otherwise
 # Outputs:
 #   STDERR - details, on failure
-assert_not_sticky_bit() {
+assert_no_sticky_bit() {
   local -r file="$1"
   if [ -k "$file" ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -868,6 +865,7 @@ assert_not_sticky_bit() {
 }
 
 # Fail and display path of the file (or directory) if it is a symlink.
+# function is the logical complement of `assert_symlink_to'.
 #   $1 - source
 #   $2 - destination
 # Returns:
@@ -878,45 +876,40 @@ assert_not_sticky_bit() {
 assert_not_symlink_to() {
   local -r sourcefile="$1"
   local -r link="$2"
-# If OS is linux
-if [[ `uname` == "Linux" ]]; then
+  # If OS is linux
+  if [[ `uname` == "Linux" ]]; then
     if [ -L $link   ]; then
       local -r rem="$BATSLIB_FILE_PATH_REM"
       local -r add="$BATSLIB_FILE_PATH_ADD"
       batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
         | batslib_decorate 'file is a symbolic link' \
         | fail
-      fi
-      local -r realsource=$( readlink -f "$link" )
-      if [ "$realsource" = "$sourcefile"  ]; then
-        batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
+    fi
+    local -r realsource=$( readlink -f "$link" )
+    if [ "$realsource" = "$sourcefile"  ]; then
+      batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
         | batslib_decorate 'symbolic link does have the correct target' \
         | fail
-      fi
-# If OS is OSX
-elif [[ `uname` == "Darwin" ]]; then
-
-function readlinkf() {
-TARGET_FILE=$1
-
-cd `dirname $TARGET_FILE`
-TARGET_FILE=`basename $TARGET_FILE`
-
-# Iterate down a (possible) chain of symlinks
-while [ -L "$TARGET_FILE" ]
-do
-    TARGET_FILE=`readlink $TARGET_FILE`
+    fi
+  # If OS is OSX
+  elif [[ `uname` == "Darwin" ]]; then
+  function readlinkf() {
+    TARGET_FILE=$1
     cd `dirname $TARGET_FILE`
     TARGET_FILE=`basename $TARGET_FILE`
-done
-
-# Compute the canonicalized name by finding the physical path
-# for the directory we're in and appending the target file.
-PHYS_DIR=`pwd -P`
-RESULT=$PHYS_DIR/$TARGET_FILE
-echo $RESULT
-}
-
+    # Iterate down a (possible) chain of symlinks
+    while [ -L "$TARGET_FILE" ]
+    do
+      TARGET_FILE=`readlink $TARGET_FILE`
+      cd `dirname $TARGET_FILE`
+      TARGET_FILE=`basename $TARGET_FILE`
+    done
+    # Compute the canonicalized name by finding the physical path
+    # for the directory we're in and appending the target file.
+    PHYS_DIR=`pwd -P`
+    RESULT=$PHYS_DIR/$TARGET_FILE
+    echo $RESULT
+  }
 
   if [ -L $link   ]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
@@ -928,8 +921,8 @@ echo $RESULT
     local -r realsource=$( readlinkf "$link" )
     if [ "$realsource" = "$sourcefile"  ]; then
       batslib_print_kv_single 4 'path' "${link/$rem/$add}" \
-      | batslib_decorate 'symbolic link does have the correct target' \
-      | fail
+        | batslib_decorate 'symbolic link does have the correct target' \
+        | fail
     fi
-fi
-    }
+  fi
+}

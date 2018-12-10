@@ -266,13 +266,13 @@ permission : $permission
 --
 ```
 
-### `assert_zero`
+### `assert_size_zero`
 
 Fail if file is not zero byte.
 
 ```bash
-@test 'assert_zero() {
-  assert_zero /path/to/zerobyte
+@test 'assert_size_zero() {
+  assert_size_zero /path/to/zerobyte
 }
 ```
 
@@ -284,13 +284,13 @@ path : /path/to/notzerobyte
 --
 ```
 
-### `assert_not_zero`
+### `assert_size_not_zero`
 
 Fail if file size is zero byte.
 
 ```bash
-@test 'assert_not_zero() {
-  assert_not_zero /path/to/notzerobyte
+@test 'assert_size_not_zero() {
+  assert_size_not_zero /path/to/notzerobyte
 }
 ```
 
@@ -302,13 +302,13 @@ path : /path/to/zerobyte
 --
 ```
 
-### `assert_file_set_group_id`
+### `assert_file_group_id_set`
 
 Fail if group id is not set.
 
 ```bash
-@test 'assert_file_set_group_id() {
-  assert_file_set_group_id /path/to/groupidset
+@test 'assert_file_group_id_set() {
+  assert_file_group_id_set /path/to/groupidset
 }
 ```
 
@@ -320,13 +320,13 @@ path : /path/to/groupidnotset
 --
 ```
 
-### `assert_file_not_set_group_id`
+### `assert_file_not_group_id_set`
 
 Fail if group id is set.
 
 ```bash
-@test 'assert_file_not_set_group_id() {
-  assert_file_not_set_group_id /path/to/groupidnotset
+@test 'assert_file_not_group_id_set() {
+  assert_file_not_group_id_set /path/to/groupidnotset
 }
 ```
 
@@ -338,13 +338,13 @@ path : /path/to/groupdidset
 --
 ```
 
-### `assert_file_set_user_id`
+### `assert_file_user_id_set`
 
 Fail if user id is not set.
 
 ```bash
-@test 'assert_file_set_user_id() {
-  assert_file_set_user_id /path/to/useridset
+@test 'assert_file_user_id_set() {
+  assert_file_user_id_set /path/to/useridset
 }
 ```
 
@@ -356,13 +356,13 @@ path : /path/to/useridnotset
 --
 ```
 
-### `assert_file_not_set_user_id`
+### `assert_file_not_user_id_set`
 
 Fail if user id is set.
 
 ```bash
-@test 'assert_file_not_set_user_id() {
-  assert_file_not_set_user_id /path/to/groupidnotset
+@test 'assert_file_not_user_id_set() {
+  assert_file_not_user_id_set /path/to/groupidnotset
 }
 ```
 
