@@ -3,6 +3,16 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+  touch ${TEST_FIXTURE_ROOT}/dir/file
+  ln -s ${TEST_FIXTURE_ROOT}/dir/file ${TEST_FIXTURE_ROOT}/dir/link
+
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/link ${TEST_FIXTURE_ROOT}/dir/file
+}
+
+
 # Correctness
 @test 'assert_link_not_exist() <file>: returns 0 if <file> is not a link' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/file"

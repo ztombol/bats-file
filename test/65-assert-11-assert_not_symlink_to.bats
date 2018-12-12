@@ -1,6 +1,17 @@
 #!/usr/bin/env bats
+
 load 'test_helper'
 fixtures 'symlink'
+
+setup () {
+ touch ${TEST_FIXTURE_ROOT}/file ${TEST_FIXTURE_ROOT}/notasymlink
+ ln -s ${TEST_FIXTURE_ROOT}/file ${TEST_FIXTURE_ROOT}/symlink
+ 
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/file ${TEST_FIXTURE_ROOT}/notasymlink ${TEST_FIXTURE_ROOT}/symlink
+}
+
 # Correctness
 @test 'assert_not_symlink_to() <file> <link>: returns 0 if <link> exists and is a not symbolic link to <file>' {
   local -r file="${TEST_FIXTURE_ROOT}/file"

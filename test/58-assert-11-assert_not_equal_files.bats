@@ -3,6 +3,13 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+ touch ${TEST_FIXTURE_ROOT}/dir/file_with_text ${TEST_FIXTURE_ROOT}/dir/same_file_with_text 
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/file_with_text ${TEST_FIXTURE_ROOT}/dir/same_file_with_text
+}
+
 # Correctness
 @test 'assert_files_not_equal() <file1> <file2>: returns 0 if <file1> and <file2> are not the same' {
   local -r file1="${TEST_FIXTURE_ROOT}/dir/file_with_text"

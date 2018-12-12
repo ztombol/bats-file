@@ -190,19 +190,230 @@ path : /path/to/executable-file
 --
 ```
 
-### `assert_files_equal`
+### `assert_file_owner`
 
-Fail if the given files are not the same.
+Fail if given user is not the owner of the given file.
 
 ```bash
-@test 'assert_files_equal()' {
-  assert_files_equal /path/to/file1 /path/to/file2
+@test 'assert_file_owner() {
+  assert_file_owner $owner /path/to/owner
 }
 ```
 
 On failure, the path is displayed.
 
 ```
+-- user is not the owner of the file --
+path : /path/to/notowner
+owner : user
+--
+```
+
+### `assert_not_file_owner`
+
+Fail if given user is the owner of the given file.
+
+```bash
+@test 'assert_not_file_owner() {
+  assert_not_file_owner $owner /path/to/notowner
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- Fail if given user is the owner, but it was expected not to be --
+path : /path/to/owner
+owner : $owner
+--
+```
+
+### `assert_file_permission`
+
+Fail if given file does not have given permission.
+
+```bash
+@test 'assert_file_permission() {
+  assert_file_permission $permission /path/to/permission
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- given file does not have permissions 777 --
+path : /path/to/nopermission
+permission: $permission
+--
+```
+
+### `assert_not_file_permission`
+
+Fail if given file has given permission.
+
+```bash
+@test 'assert_not_file_permission() {
+  assert_not_file_permission $permission /path/to/nopermission
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- given file has permissions 777, but it was expected not to have --
+path : /path/to/permission
+permission : $permission
+--
+```
+
+### `assert_size_zero`
+
+Fail if file is not zero byte.
+
+```bash
+@test 'assert_size_zero() {
+  assert_size_zero /path/to/zerobyte
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is not zero byte --
+path : /path/to/notzerobyte
+--
+```
+
+### `assert_size_not_zero`
+
+Fail if file size is zero byte.
+
+```bash
+@test 'assert_size_not_zero() {
+  assert_size_not_zero /path/to/notzerobyte
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is 0 byte, but it was expected not to be --
+path : /path/to/zerobyte
+--
+```
+
+### `assert_file_group_id_set`
+
+Fail if group id is not set.
+
+```bash
+@test 'assert_file_group_id_set() {
+  assert_file_group_id_set /path/to/groupidset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- group id is not set --
+path : /path/to/groupidnotset
+--
+```
+
+### `assert_file_not_group_id_set`
+
+Fail if group id is set.
+
+```bash
+@test 'assert_file_not_group_id_set() {
+  assert_file_not_group_id_set /path/to/groupidnotset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- group id is set, but it was expected not to be --
+path : /path/to/groupdidset
+--
+```
+
+### `assert_file_user_id_set`
+
+Fail if user id is not set.
+
+```bash
+@test 'assert_file_user_id_set() {
+  assert_file_user_id_set /path/to/useridset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- user id is not set --
+path : /path/to/useridnotset
+--
+```
+
+### `assert_file_not_user_id_set`
+
+Fail if user id is set.
+
+```bash
+@test 'assert_file_not_user_id_set() {
+  assert_file_not_user_id_set /path/to/groupidnotset
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- user id is set, but it was expected not to be --
+path : /path/to/userdidset
+--
+```
+
+### `assert_sticky_bit`
+
+Fail if stickybit is not set.
+
+```bash
+@test 'assert_sticky_bit() {
+  assert_sticky_bit /path/to/stickybit
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- stickybit is not set --
+path : /path/to/notstickybit
+--
+```
+
+### `assert_not_sticky_bit`
+
+Fail if stickybit is set.
+
+```bash
+@test 'assert_not_sticky_bit() {
+  assert_not_sticky_bit /path/to/notstickybit
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- stickybit is set, but it was expected not to be --
+path : /path/to/stickybit
+
+### `assert_files_equal`
+
+Fail if the given files are not the same.
+```bash
+@test 'assert_files_equal()' {
+  assert_files_equal /path/to/file1 /path/to/file2
 -- files are not the same --
 path1 : /path/to/file
 path2 : /path/to/same_file
@@ -349,7 +560,6 @@ path : /path/to/existing-fifo-file
 --
 ```
 
-
 ### `assert_file_not_executable`
 
 Fail if the given file is executable.
@@ -367,7 +577,6 @@ On failure, the path is displayed.
 path : /path/to/executable-file
 --
 ```
-
 
 ### `assert_files_not_equal`
 

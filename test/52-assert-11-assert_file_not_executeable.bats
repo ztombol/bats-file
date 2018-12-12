@@ -3,6 +3,15 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+  touch ${TEST_FIXTURE_ROOT}/dir/execfile ${TEST_FIXTURE_ROOT}/dir/noexecfile
+  chmod +x ${TEST_FIXTURE_ROOT}/dir/execfile
+
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/execfile ${TEST_FIXTURE_ROOT}/dir/noexecfile
+}
+
 # Correctness
 @test 'assert_file_not_executable() <file>: returns 0 if <file> is not executable' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/noexecfile"

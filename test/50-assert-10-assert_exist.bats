@@ -3,6 +3,13 @@
 load 'test_helper'
 fixtures 'exist'
 
+setup () {
+  touch ${TEST_FIXTURE_ROOT}/dir/file
+}
+teardown () {
+    rm -f ${TEST_FIXTURE_ROOT}/dir/file
+}
+
 # Correctness
 @test 'assert_exist() <file>: returns 0 if <file> exists' {
   local -r file="${TEST_FIXTURE_ROOT}/dir/file"
