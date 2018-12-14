@@ -246,6 +246,54 @@ path : /path/to/nopermission
 permission: $permission
 --
 ```
+### `assert_file_empty`
+Fail if the given file or directory is not empty.
+```bash
+@test 'assert_file_empty()' {
+  assert_file_empty /path/to/empty-file
+}
+```
+On failure, the path and the content of the file is displayed.
+```
+-- file is not empty --
+path : /path/to/empty-file
+output (2 lines) : content-line-1
+content-line-2
+--
+```
+### `assert_file_contains`
+Fail if the given file does not contain the regex.
+```bash
+@test 'assert_file_contains() {
+    assert_file_contains /path/to/non-empty-file regex
+}
+```
+On failure, the path and expected regex are displayed.
+```
+```
+### `assert_file_size_equals`
+Fail if the given file size does not match the input.
+```bash
+@test 'assert_file_size_equals() {
+    assert_file_size_equals /path/to/non-empty-file bytecount
+}
+```
+On failure, the path and expected bytecount are displayed.
+```
+
+### `assert_file_not_empty`
+Fail if the given file or directory empty.
+```bash
+@test 'assert_file_not_empty() {
+  assert_file_not_empty /path/to/non-empty-file
+}
+```
+On failure, the path is displayed.
+```
+-- file empty, but it was expected to contain something --
+path : /path/to/non-empty-file
+--
+```
 
 ### `assert_not_file_permission`
 
