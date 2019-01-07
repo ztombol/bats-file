@@ -24,8 +24,24 @@ Dependencies:
 See the [shared documentation][bats-docs] to learn how to install and
 load this library.
 
+## **Index of all functions**
 
-## Usage
+| Test File Types | Test File Attributes | Test File Content |
+| ----------- | ----------- | ----------- |
+| _Check if a **file or directory** exist!_ <br/> - [assert_exist](#assert_exist) <br/> - [assert_not_exist](#assert_not_exist) | _Check if file is **executable**!_ <br/> - [assert_file_executable](#assert_file_executable) <br/> - [assert_file_not_executable](#assert_file_not_executable) | _Check if file is **empty**!_ <br/> - [assert_file_empty](#assert_file_empty) <br/> - [assert_file_not_empty](#assert_file_not_empty) |
+| _Check if a **file** exist!_ <br/> - [assert_file_exist](#assert_file_exist) <br/> - [assert_file_not_exist](#assert_file_not_exist) | _Check the **owner** of a file!_ <br/> - [assert_file_owner](#assert_file_owner) <br/> - [assert_file_not_owner](#assert_file_not_owner) | _Check if file **contains regex**!_ <br/>  - [assert_file_contains](#assert_file_contains) <br/> - ~~assert_file_not_contains~~ |
+| _Check if a **directory** exist!_ <br/> - [assert_dir_exist](#assert_dir_exist) <br/> - [assert_dir_not_exist](#assert_dir_not_exist) | _Check the **permission** of a file!_ <br/> - [assert_file_permission](#assert_file_permission) <br/> - ~~assert_file_not_permission~~ | _Check if file is a **symlink to target**!_ <br/> - [assert_symlink_to](#assert_symlink_to) <br/> - [assert_not_symlink_to](#assert_not_symlink_to) |
+| _Check if a **link** exist!_ <br/> - [assert_link_exist](#assert_link_exist) <br/> - [assert_link_not_exist](#assert_link_not_exist) | _Check the **size** of a file **by bytes**!_ <br/> - [assert_file_size_equals](#assert_file_size_equals) |
+| _Check if a **block special file** exist!_ <br/> - [assert_block_exist](#assert_block_exist) <br/> - [assert_block_not_exist](#assert_block_not_exist) | _Check if a file have **zero bytes**!_ <br/> - [assert_size_zero](#assert_size_zero) <br/> - [assert_size_not_zero](#assert_size_not_zero) |
+| _Check if a **character special file** exist!_ <br/> - [assert_character_exist](#assert_character_exist) <br/> - [assert_character_not_exist](#assert_character_not_exist) | _Check the **groupID** of a file!_ <br/> - [assert_file_group_id_set](#assert_file_group_id_set) <br/> - [assert_file_not_group_id_set](#assert_file_not_group_id_set) |
+| _Check if a **socket** exist!_ <br/> - [assert_socket_exist](#assert_socket_exist) <br/> - [assert_socket_not_exist](#assert_socket_not_exist) | _Check the **userID** of a file!_ <br/> - [assert_file_user_id_set](#assert_file_user_id_set) <br/> - [assert_file_not_user_id_set](#assert_file_not_user_id_set) |
+| _Check if a **fifo special file** exist!_ <br/> - [assert_fifo_exist](#assert_fifo_exist) <br/> - [assert_fifo_not_exist](#assert_fifo_not_exist) | _Check if a **stickybit is set**!_ <br/> - [assert_sticky_bit](#assert_sticky_bit) <br/> - [assert_no_sticky_bit](#assert_no_sticky_bit) |
+
+
+## **Usage**
+
+## _Test File Types:_
+
 
 ### `assert_exist`
 
@@ -44,6 +60,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-file-or-dir
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_not_exist`
+
+Fail if the given file or directory does exist.
+
+```bash
+@test 'assert_not_exist()' {
+  assert_not_exist /path/to/existent-file-or-dir
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file or directory exists, but it was expected to be absent --
+path : /path/to/existent-file-or-dir
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_file_exist`
 
@@ -62,6 +102,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_file_not_exist`
+
+Fail if the given file or directory exists.
+
+```bash
+@test 'assert_file_not_exist() {
+  assert_file_not_exist /path/to/existing-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file or directory exists, but it was expected to be absent --
+path : /path/to/existing-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_dir_exist`
 
@@ -80,6 +144,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-directory
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_dir_not_exist`
+
+Fail if the given directory exists.
+
+```bash
+@test 'assert_dir_not_exist() {
+  assert_dir_not_exist /path/to/existing-directory
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- directory exists, but it was expected to be absent --
+path : /path/to/existing-directory
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_link_exist`
 
@@ -98,6 +186,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-link-file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_link_not_exist`
+
+Fail if the given symbolic link exists.
+
+```bash
+@test 'assert_link_not_exist() {
+  assert_file_not_exist /path/to/existing-link-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- symbolic link exists, but it was expected to be absent --
+path : /path/to/existing-link-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_block_exist`
 
@@ -116,6 +228,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-block-file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_block_not_exist`
+
+Fail if the given block special file exists.
+
+```bash
+@test 'assert_block_not_exist() {
+  assert_file_not_exist /path/to/existing-block-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- block special file exists, but it was expected to be absent --
+path : /path/to/existing-block-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_character_exist`
 
@@ -134,6 +270,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-character-file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_character_not_exist`
+
+Fail if the given character special file exists.
+
+```bash
+@test 'assert_character_not_exist() {
+  assert_file_not_exist /path/to/existing-character-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- character special file exists, but it was expected to be absent --
+path : /path/to/existing-character-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_socket_exist`
 
@@ -152,6 +312,30 @@ On failure, the path is displayed.
 path : /path/to/non-existent-socket
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_socket_not_exist`
+
+Fail if the given socket exists.
+
+```bash
+@test 'assert_socket_not_exist() {
+  assert_file_not_exist /path/to/existing-socket
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- socket exists, but it was expected to be absent --
+path : /path/to/existing-socket
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_fifo_exist`
 
@@ -170,6 +354,34 @@ On failure, the path is displayed.
 path : /path/to/non-existent-fifo-file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_fifo_not_exist`
+
+Fail if the given named pipe exists.
+
+```bash
+@test 'assert_fifo_not_exist()' {
+  assert_file_not_exist /path/to/existing-fifo-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- named pipe exists, but it was expected to be absent --
+path : /path/to/existing-fifo-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+---
+
+
+## _Test File Attributes:_
+
 
 
 ### `assert_file_executable`
@@ -189,6 +401,30 @@ On failure, the path is displayed.
 path : /path/to/executable-file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_file_not_executable`
+
+Fail if the given file is executable.
+
+```bash
+@test 'assert_file_not_executable()' {
+  assert_file_not_executable /path/to/executable-file
+}
+```
+
+On failure, the path is displayed.
+
+```
+-- file is executable, but it was expected to be not executable --
+path : /path/to/executable-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_file_owner`
 
@@ -208,6 +444,8 @@ path : /path/to/notowner
 owner : user
 --
 ```
+[Back to index](#Index-of-all-functions)
+
 
 ### `assert_not_file_owner`
 
@@ -227,6 +465,10 @@ path : /path/to/owner
 owner : $owner
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_file_permission`
 
@@ -246,54 +488,8 @@ path : /path/to/nopermission
 permission: $permission
 --
 ```
-### `assert_file_empty`
-Fail if the given file or directory is not empty.
-```bash
-@test 'assert_file_empty()' {
-  assert_file_empty /path/to/empty-file
-}
-```
-On failure, the path and the content of the file is displayed.
-```
--- file is not empty --
-path : /path/to/empty-file
-output (2 lines) : content-line-1
-content-line-2
---
-```
-### `assert_file_contains`
-Fail if the given file does not contain the regex.
-```bash
-@test 'assert_file_contains() {
-    assert_file_contains /path/to/non-empty-file regex
-}
-```
-On failure, the path and expected regex are displayed.
-```
-```
-### `assert_file_size_equals`
-Fail if the given file size does not match the input.
-```bash
-@test 'assert_file_size_equals() {
-    assert_file_size_equals /path/to/non-empty-file bytecount
-}
-```
-On failure, the path and expected bytecount are displayed.
-```
+[Back to index](#Index-of-all-functions)
 
-### `assert_file_not_empty`
-Fail if the given file or directory empty.
-```bash
-@test 'assert_file_not_empty() {
-  assert_file_not_empty /path/to/non-empty-file
-}
-```
-On failure, the path is displayed.
-```
--- file empty, but it was expected to contain something --
-path : /path/to/non-empty-file
---
-```
 
 ### `assert_not_file_permission`
 
@@ -313,6 +509,24 @@ path : /path/to/permission
 permission : $permission
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+
+
+### `assert_file_size_equals`
+Fail if the given file size does not match the input.
+```bash
+@test 'assert_file_size_equals() {
+    assert_file_size_equals /path/to/non-empty-file bytecount
+}
+```
+On failure, the path and expected bytecount are displayed.
+
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_size_zero`
 
@@ -331,6 +545,8 @@ On failure, the path is displayed.
 path : /path/to/notzerobyte
 --
 ```
+[Back to index](#Index-of-all-functions)
+
 
 ### `assert_size_not_zero`
 
@@ -349,6 +565,10 @@ On failure, the path is displayed.
 path : /path/to/zerobyte
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_file_group_id_set`
 
@@ -367,6 +587,8 @@ On failure, the path is displayed.
 path : /path/to/groupidnotset
 --
 ```
+[Back to index](#Index-of-all-functions)
+
 
 ### `assert_file_not_group_id_set`
 
@@ -385,6 +607,10 @@ On failure, the path is displayed.
 path : /path/to/groupdidset
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_file_user_id_set`
 
@@ -403,6 +629,8 @@ On failure, the path is displayed.
 path : /path/to/useridnotset
 --
 ```
+[Back to index](#Index-of-all-functions)
+
 
 ### `assert_file_not_user_id_set`
 
@@ -421,6 +649,10 @@ On failure, the path is displayed.
 path : /path/to/userdidset
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+
 
 ### `assert_sticky_bit`
 
@@ -439,6 +671,8 @@ On failure, the path is displayed.
 path : /path/to/notstickybit
 --
 ```
+[Back to index](#Index-of-all-functions)
+
 
 ### `assert_not_sticky_bit`
 
@@ -455,18 +689,64 @@ On failure, the path is displayed.
 ```
 -- stickybit is set, but it was expected not to be --
 path : /path/to/stickybit
-
-### `assert_files_equal`
-
-Fail if the given files are not the same.
-```bash
-@test 'assert_files_equal()' {
-  assert_files_equal /path/to/file1 /path/to/file2
--- files are not the same --
-path1 : /path/to/file
-path2 : /path/to/same_file
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+
+
+## _Test File Content:_
+
+
+### `assert_file_empty`
+Fail if the given file or directory is not empty.
+```bash
+@test 'assert_file_empty()' {
+  assert_file_empty /path/to/empty-file
+}
+```
+On failure, the path and the content of the file is displayed.
+```
+-- file is not empty --
+path : /path/to/empty-file
+output (2 lines) : content-line-1
+content-line-2
+--
+```
+[Back to index](#Index-of-all-functions)
+
+
+### `assert_file_not_empty`
+Fail if the given file or directory empty.
+```bash
+@test 'assert_file_not_empty() {
+  assert_file_not_empty /path/to/non-empty-file
+}
+```
+On failure, the path is displayed.
+```
+-- file empty, but it was expected to contain something --
+path : /path/to/non-empty-file
+--
+```
+[Back to index](#Index-of-all-functions)
+
+---
+
+
+### `assert_file_contains`
+Fail if the given file does not contain the regex.
+```bash
+@test 'assert_file_contains() {
+    assert_file_contains /path/to/non-empty-file regex
+}
+```
+On failure, the path and expected regex are displayed.
+
+[Back to index](#Index-of-all-functions)
+
+---
 
 ### `assert_symlink_to`
 Fail if the given file is not a symbolic to a defined target.
@@ -481,169 +761,8 @@ On failure, the path is displayed.
 path : /path/to/symlink
 --
 ```
+[Back to index](#Index-of-all-functions)
 
-### `assert_file_not_exist`
-
-Fail if the given file or directory exists.
-
-```bash
-@test 'assert_file_not_exist() {
-  assert_file_not_exist /path/to/existing-file
-}
-```
-
-On failure, the path is displayed.
-
-```
--- file or directory exists, but it was expected to be absent --
-path : /path/to/existing-file
---
-```
-
-### `assert_dir_not_exist`
-
-Fail if the given directory exists.
-
-```bash
-@test 'assert_dir_not_exist() {
-  assert_dir_not_exist /path/to/existing-directory
-}
-```
-
-On failure, the path is displayed.
-
-```
--- directory exists, but it was expected to be absent --
-path : /path/to/existing-directory
---
-```
-
-### `assert_link_not_exist`
-
-Fail if the given symbolic link exists.
-
-```bash
-@test 'assert_link_not_exist() {
-  assert_file_not_exist /path/to/existing-link-file
-}
-```
-
-On failure, the path is displayed.
-
-```
--- symbolic link exists, but it was expected to be absent --
-path : /path/to/existing-link-file
---
-```
-
-### `assert_block_not_exist`
-
-Fail if the given block special file exists.
-
-```bash
-@test 'assert_block_not_exist() {
-  assert_file_not_exist /path/to/existing-block-file
-}
-```
-
-On failure, the path is displayed.
-
-```
--- block special file exists, but it was expected to be absent --
-path : /path/to/existing-block-file
---
-```
-
-### `assert_character_not_exist`
-
-Fail if the given character special file exists.
-
-```bash
-@test 'assert_character_not_exist() {
-  assert_file_not_exist /path/to/existing-character-file
-}
-```
-
-On failure, the path is displayed.
-
-```
--- character special file exists, but it was expected to be absent --
-path : /path/to/existing-character-file
---
-```
-
-### `assert_socket_not_exist`
-
-Fail if the given socket exists.
-
-```bash
-@test 'assert_socket_not_exist() {
-  assert_file_not_exist /path/to/existing-socket
-}
-```
-
-On failure, the path is displayed.
-
-```
--- socket exists, but it was expected to be absent --
-path : /path/to/existing-socket
---
-```
-
-### `assert_fifo_not_exist`
-
-Fail if the given named pipe exists.
-
-```bash
-@test 'assert_fifo_not_exist()' {
-  assert_file_not_exist /path/to/existing-fifo-file
-}
-```
-
-On failure, the path is displayed.
-
-```
--- named pipe exists, but it was expected to be absent --
-path : /path/to/existing-fifo-file
---
-```
-
-### `assert_file_not_executable`
-
-Fail if the given file is executable.
-
-```bash
-@test 'assert_file_not_executable()' {
-  assert_file_not_executable /path/to/executable-file
-}
-```
-
-On failure, the path is displayed.
-
-```
--- file is executable, but it was expected to be not executable --
-path : /path/to/executable-file
---
-```
-
-### `assert_files_not_equal`
-
-Fail if the given files are the same.
-
-```bash
-@test 'assert_files_not_equal()' {
-  assert_files_not_equal /path/to/file1 /path/to/file2
-}
-```
-
-On failure, the path is displayed.
-
-```
--- files are the same --
-path1 : /path/to/file
-path2 : /path/to/same_file
---
-```
 
 ### `assert_not_symlink_to`
 Fail if the given file is a symbolic to a defined target.
@@ -661,6 +780,11 @@ path : /path/to/symlink
 path : /path/to/symlink
 --
 ```
+[Back to index](#Index-of-all-functions)
+
+---
+---
+
 
 ## Working with temporary directories
 
