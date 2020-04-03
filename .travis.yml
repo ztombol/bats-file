@@ -8,4 +8,4 @@ before_install:
 before_script:
   - export PATH="${HOME}/.local/bin:${PATH}"
 script:
-  - if [ "${BATS_VERSION}" = "v1.0.0" ]; then ! bats test; else bats test; fi
+  - bats test
