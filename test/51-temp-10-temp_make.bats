@@ -42,11 +42,16 @@ fixtures 'temp'
 @test "temp_make() <var>: does not work when called from \`main'" {
   run bats "${TEST_FIXTURE_ROOT}/temp_make-main.bats"
 
+  if [[ "${BATS_VERSION}" =~ ^1\.2\.0 ]]
+  then
+    [ "$status" -ne 1 ]
+  else
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- ERROR: temp_make --' ]
   [ "${lines[1]}" == "Must be called from \`setup', \`@test' or \`teardown'" ]
   [ "${lines[2]}" == '--' ]
+  fi
 }
 
 # Options
