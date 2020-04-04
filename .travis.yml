@@ -1,4 +1,6 @@
 language: bash
+env:
+  - BATS_VERSION=v0.4.0
 before_install:
   - ./script/install-bats.sh
   - git clone --depth 1 https://github.com/ztombol/bats-support ../bats-support
