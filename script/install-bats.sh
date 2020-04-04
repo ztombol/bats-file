@@ -2,10 +2,10 @@
 set -o errexit
 set -o xtrace
 
-BATS_VERSION="${1:-0.4.0}"
+BATS_VERSION="${BATS_VERSION:-v0.4.0}"
 
 git clone \
-  --branch "v${BATS_VERSION}" \
+  --branch "${BATS_VERSION}" \
   --depth 1 \
   https://github.com/bats-core/bats-core bats
 
