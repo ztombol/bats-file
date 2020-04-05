@@ -3,3 +3,6 @@
 load 'test_helper'
 
 TEST_TEMP_DIR="$(temp_make)"
+
+@test "void" {
+}

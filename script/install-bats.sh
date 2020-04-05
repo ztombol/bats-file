@@ -2,5 +2,15 @@
 set -o errexit
 set -o xtrace
 
-git clone --depth 1 https://github.com/sstephenson/bats
-cd bats && ./install.sh "${HOME}/.local" && cd .. && rm -rf bats
+BATS_VERSION="${BATS_VERSION:-master}"
+
+git clone \
+  --branch "${BATS_VERSION}" \
+  --depth 1 \
+  https://github.com/bats-core/bats-core bats
+
+(cd bats
+  ./install.sh "${HOME}/.local"
+)
+
+rm -rf bats
