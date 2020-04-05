@@ -97,10 +97,16 @@ fixtures 'temp'
   run bats "${TEST_FIXTURE_ROOT}/temp_del-main.bats"
 
   [ "$status" -eq 1 ]
-  [ "${#lines[@]}" -eq 3 ]
-  [ "${lines[0]}" == '-- ERROR: temp_del --' ]
-  [ "${lines[1]}" == "Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
-  [ "${lines[2]}" == '--' ]
+  [ "${#lines[@]}" -ge 3 ]
+
+  # Starting with `bats` commit 17e2cf35 "*: refactor to always use
+  # bats-exec-suite" (bats-core/bats-core@17e2cf35), an empty test is needed
+  # which emits an empty line as a side-effect, account for it.
+  declare -i i_line=$(( ${#lines[@]} - 3 ))
+
+  [ "${lines[$(( i_line++ ))]}" == '-- ERROR: temp_del --' ]
+  [ "${lines[$(( i_line++ ))]}" == "Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
+  [ "${lines[$(( i_line++ ))]}" == '--' ]
 }
 
 @test "temp_del() <path>: \`BATSLIB_TEMP_PRESERVE_ON_FAILURE' does not work when called from \`setup'" {

@@ -2,7 +2,7 @@
 set -o errexit
 set -o xtrace
 
-BATS_VERSION="${BATS_VERSION:-v1.1.0}"
+BATS_VERSION="${BATS_VERSION:-master}"
 
 git clone \
   --branch "${BATS_VERSION}" \
