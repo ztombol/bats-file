@@ -32,4 +32,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `npm` support
 
 
-[0.2.0]: https://github.com/ztombol/bats-file/compare/v0.1.0...v0.2.0
+[0.2.0]: https://github.com/bats-core/bats-file/compare/v0.1.0...v0.2.0

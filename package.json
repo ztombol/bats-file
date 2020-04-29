@@ -3,6 +3,6 @@
   "version": "0.2.0",
   "private": true,
   "peerDependencies": {
-    "bats-support": "git+https://github.com/ztombol/bats-support.git#v0.3.0"
+    "bats-support": "git+https://github.com/bats-core/bats-support.git#v0.3.0"
   }
 }
