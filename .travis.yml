@@ -4,7 +4,7 @@ os:
   - osx
 before_install:
   - ./script/install-bats.sh
-  - git clone --depth 1 https://github.com/ztombol/bats-support ../bats-support
+  - git clone --depth 1 https://github.com/bats-core/bats-support ../bats-support
 before_script:
   - export PATH="${HOME}/.local/bin:${PATH}"
 script:

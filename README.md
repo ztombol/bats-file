@@ -1,8 +1,8 @@
 # bats-file
 
-[![GitHub license](https://img.shields.io/badge/license-CC0-blue.svg)](https://raw.githubusercontent.com/peshay/bats-file/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/peshay/bats-file.svg)](https://github.com/peshay/bats-file/releases/latest)
-[![Build Status](https://travis-ci.org/peshay/bats-file.svg?branch=master)](https://travis-ci.org/peshay/bats-file)
+[![GitHub license](https://img.shields.io/badge/license-CC0-blue.svg)](https://raw.githubusercontent.com/bats-core/bats-file/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/bats-core/bats-file.svg)](https://github.com/bats-core/bats-file/releases/latest)
+[![Build Status](https://travis-ci.org/bats-core/bats-file.svg?branch=master)](https://travis-ci.org/bats-core/bats-file)
 
 `bats-file` is a helper library providing common filesystem related
 assertions and helpers for [Bats][bats].
@@ -950,8 +950,8 @@ path : <temp>/path/to/non-existent-file
 
 <!-- REFERENCES -->
 
-[bats]: https://github.com/sstephenson/bats
-[bats-support-output]: https://github.com/ztombol/bats-support#output-formatting
-[bats-support]: https://github.com/ztombol/bats-support
+[bats]: https://github.com/bats-core/bats-core
+[bats-support-output]: https://github.com/bats-core/bats-support#output-formatting
+[bats-support]: https://github.com/bats-core/bats-support
 [bats-docs]: https://github.com/ztombol/bats-docs
 [bash-pe]: https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
