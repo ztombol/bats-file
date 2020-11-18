@@ -28,14 +28,14 @@ load this library.
 
 | Test File Types | Test File Attributes | Test File Content |
 | ----------- | ----------- | ----------- |
-| _Check if a **file or directory** exist!_ <br/> - [assert_exist](#assert_exist) <br/> - [assert_not_exist](#assert_not_exist) | _Check if file is **executable**!_ <br/> - [assert_file_executable](#assert_file_executable) <br/> - [assert_file_not_executable](#assert_file_not_executable) | _Check if file is **empty**!_ <br/> - [assert_file_empty](#assert_file_empty) <br/> - [assert_file_not_empty](#assert_file_not_empty) |
-| _Check if a **file** exist!_ <br/> - [assert_file_exist](#assert_file_exist) <br/> - [assert_file_not_exist](#assert_file_not_exist) | _Check the **owner** of a file!_ <br/> - [assert_file_owner](#assert_file_owner) <br/> - [assert_file_not_owner](#assert_file_not_owner) | _Check if file **contains regex**!_ <br/>  - [assert_file_contains](#assert_file_contains) <br/> - ~~assert_file_not_contains~~ |
-| _Check if a **directory** exist!_ <br/> - [assert_dir_exist](#assert_dir_exist) <br/> - [assert_dir_not_exist](#assert_dir_not_exist) | _Check the **permission** of a file!_ <br/> - [assert_file_permission](#assert_file_permission) <br/> - [assert_not_file_permission](#assert_not_file_permission) | _Check if file is a **symlink to target**!_ <br/> - [assert_symlink_to](#assert_symlink_to) <br/> - [assert_not_symlink_to](#assert_not_symlink_to) |
-| _Check if a **link** exist!_ <br/> - [assert_link_exist](#assert_link_exist) <br/> - [assert_link_not_exist](#assert_link_not_exist) | _Check the **size** of a file **by bytes**!_ <br/> - [assert_file_size_equals](#assert_file_size_equals) |
-| _Check if a **block special file** exist!_ <br/> - [assert_block_exist](#assert_block_exist) <br/> - [assert_block_not_exist](#assert_block_not_exist) | _Check if a file have **zero bytes**!_ <br/> - [assert_size_zero](#assert_size_zero) <br/> - [assert_size_not_zero](#assert_size_not_zero) |
-| _Check if a **character special file** exist!_ <br/> - [assert_character_exist](#assert_character_exist) <br/> - [assert_character_not_exist](#assert_character_not_exist) | _Check the **groupID** of a file!_ <br/> - [assert_file_group_id_set](#assert_file_group_id_set) <br/> - [assert_file_not_group_id_set](#assert_file_not_group_id_set) |
-| _Check if a **socket** exist!_ <br/> - [assert_socket_exist](#assert_socket_exist) <br/> - [assert_socket_not_exist](#assert_socket_not_exist) | _Check the **userID** of a file!_ <br/> - [assert_file_user_id_set](#assert_file_user_id_set) <br/> - [assert_file_not_user_id_set](#assert_file_not_user_id_set) |
-| _Check if a **fifo special file** exist!_ <br/> - [assert_fifo_exist](#assert_fifo_exist) <br/> - [assert_fifo_not_exist](#assert_fifo_not_exist) | _Check if a **stickybit is set**!_ <br/> - [assert_sticky_bit](#assert_sticky_bit) <br/> - [assert_no_sticky_bit](#assert_no_sticky_bit) |
+| _Check if a **file or directory** exist!_ <br/> - [assert_exists](#assert_exist) <br/> - [assert_not_exists](#assert_not_exist) | _Check if file is **executable**!_ <br/> - [assert_file_executable](#assert_file_executable) <br/> - [assert_file_not_executable](#assert_file_not_executable) | _Check if file is **empty**!_ <br/> - [assert_file_empty](#assert_file_empty) <br/> - [assert_file_not_empty](#assert_file_not_empty) |
+| _Check if a **file** exist!_ <br/> - [assert_file_exists](#assert_file_exist) <br/> - [assert_file_not_exists](#assert_file_not_exist) | _Check the **owner** of a file!_ <br/> - [assert_file_owner](#assert_file_owner) <br/> - [assert_file_not_owner](#assert_file_not_owner) | _Check if file **contains regex**!_ <br/>  - [assert_file_contains](#assert_file_contains) <br/> - ~~assert_file_not_contains~~ |
+| _Check if a **directory** exist!_ <br/> - [assert_dir_exists](#assert_dir_exist) <br/> - [assert_dir_not_exists](#assert_dir_not_exist) | _Check the **permission** of a file!_ <br/> - [assert_file_permission](#assert_file_permission) <br/> - [assert_not_file_permission](#assert_not_file_permission) | _Check if file is a **symlink to target**!_ <br/> - [assert_symlink_to](#assert_symlink_to) <br/> - [assert_not_symlink_to](#assert_not_symlink_to) |
+| _Check if a **link** exist!_ <br/> - [assert_link_exists](#assert_link_exist) <br/> - [assert_link_not_exists](#assert_link_not_exist) | _Check the **size** of a file **by bytes**!_ <br/> - [assert_file_size_equals](#assert_file_size_equals) |
+| _Check if a **block special file** exist!_ <br/> - [assert_block_exists](#assert_block_exist) <br/> - [assert_block_not_exists](#assert_block_not_exist) | _Check if a file have **zero bytes**!_ <br/> - [assert_size_zero](#assert_size_zero) <br/> - [assert_size_not_zero](#assert_size_not_zero) |
+| _Check if a **character special file** exist!_ <br/> - [assert_character_exists](#assert_character_exist) <br/> - [assert_character_not_exists](#assert_character_not_exist) | _Check the **groupID** of a file!_ <br/> - [assert_file_group_id_set](#assert_file_group_id_set) <br/> - [assert_file_not_group_id_set](#assert_file_not_group_id_set) |
+| _Check if a **socket** exist!_ <br/> - [assert_socket_exists](#assert_socket_exist) <br/> - [assert_socket_not_exists](#assert_socket_not_exist) | _Check the **userID** of a file!_ <br/> - [assert_file_user_id_set](#assert_file_user_id_set) <br/> - [assert_file_not_user_id_set](#assert_file_not_user_id_set) |
+| _Check if a **fifo special file** exist!_ <br/> - [assert_fifo_exists](#assert_fifo_exist) <br/> - [assert_fifo_not_exists](#assert_fifo_not_exist) | _Check if a **stickybit is set**!_ <br/> - [assert_sticky_bit](#assert_sticky_bit) <br/> - [assert_no_sticky_bit](#assert_no_sticky_bit) |
 
 
 ## **Usage**
@@ -43,13 +43,13 @@ load this library.
 ## _Test File Types:_
 
 
-### `assert_exist`
+### `assert_exists`
 
 Fail if the given file or directory does not exist.
 
 ```bash
-@test 'assert_exist()' {
-  assert_exist /path/to/non-existent-file-or-dir
+@test 'assert_exists()' {
+  assert_exists /path/to/non-existent-file-or-dir
 }
 ```
 
@@ -63,13 +63,13 @@ path : /path/to/non-existent-file-or-dir
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_not_exist`
+### `assert_not_exists`
 
 Fail if the given file or directory does exist.
 
 ```bash
-@test 'assert_not_exist()' {
-  assert_not_exist /path/to/existent-file-or-dir
+@test 'assert_not_exists()' {
+  assert_not_exists /path/to/existent-file-or-dir
 }
 ```
 
@@ -85,13 +85,13 @@ path : /path/to/existent-file-or-dir
 ---
 
 
-### `assert_file_exist`
+### `assert_file_exists`
 
 Fail if the given file does not exist.
 
 ```bash
-@test 'assert_file_exist()' {
-  assert_file_exist /path/to/non-existent-file
+@test 'assert_file_exists()' {
+  assert_file_exists /path/to/non-existent-file
 }
 ```
 
@@ -105,13 +105,13 @@ path : /path/to/non-existent-file
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_file_not_exist`
+### `assert_file_not_exists`
 
 Fail if the given file or directory exists.
 
 ```bash
-@test 'assert_file_not_exist() {
-  assert_file_not_exist /path/to/existing-file
+@test 'assert_file_not_exists() {
+  assert_file_not_exists /path/to/existing-file
 }
 ```
 
@@ -127,13 +127,13 @@ path : /path/to/existing-file
 ---
 
 
-### `assert_dir_exist`
+### `assert_dir_exists`
 
 Fail if the given directory does not exist.
 
 ```bash
-@test 'assert_dir_exist()' {
-  assert_file_exist /path/to/non-existent-directory
+@test 'assert_dir_exists()' {
+  assert_file_exists /path/to/non-existent-directory
 }
 ```
 
@@ -147,13 +147,13 @@ path : /path/to/non-existent-directory
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_dir_not_exist`
+### `assert_dir_not_exists`
 
 Fail if the given directory exists.
 
 ```bash
-@test 'assert_dir_not_exist() {
-  assert_dir_not_exist /path/to/existing-directory
+@test 'assert_dir_not_exists() {
+  assert_dir_not_exists /path/to/existing-directory
 }
 ```
 
@@ -169,13 +169,13 @@ path : /path/to/existing-directory
 ---
 
 
-### `assert_link_exist`
+### `assert_link_exists`
 
 Fail if the given symbolic link does not exist.
 
 ```bash
-@test 'assert_link_exist()' {
-  assert_file_exist /path/to/non-existent-link-file
+@test 'assert_link_exists()' {
+  assert_file_exists /path/to/non-existent-link-file
 }
 ```
 
@@ -189,13 +189,13 @@ path : /path/to/non-existent-link-file
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_link_not_exist`
+### `assert_link_not_exists`
 
 Fail if the given symbolic link exists.
 
 ```bash
-@test 'assert_link_not_exist() {
-  assert_file_not_exist /path/to/existing-link-file
+@test 'assert_link_not_exists() {
+  assert_file_not_exists /path/to/existing-link-file
 }
 ```
 
@@ -211,13 +211,13 @@ path : /path/to/existing-link-file
 ---
 
 
-### `assert_block_exist`
+### `assert_block_exists`
 
 Fail if the given block special file does not exist.
 
 ```bash
-@test 'assert_block_exist()' {
-  assert_file_exist /path/to/non-existent-block-file
+@test 'assert_block_exists()' {
+  assert_file_exists /path/to/non-existent-block-file
 }
 ```
 
@@ -231,13 +231,13 @@ path : /path/to/non-existent-block-file
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_block_not_exist`
+### `assert_block_not_exists`
 
 Fail if the given block special file exists.
 
 ```bash
-@test 'assert_block_not_exist() {
-  assert_file_not_exist /path/to/existing-block-file
+@test 'assert_block_not_exists() {
+  assert_file_not_exists /path/to/existing-block-file
 }
 ```
 
@@ -253,13 +253,13 @@ path : /path/to/existing-block-file
 ---
 
 
-### `assert_character_exist`
+### `assert_character_exists`
 
 Fail if the given character special file does not exist.
 
 ```bash
-@test 'assert_character_exist()' {
-  assert_file_exist /path/to/non-existent-character-file
+@test 'assert_character_exists()' {
+  assert_file_exists /path/to/non-existent-character-file
 }
 ```
 
@@ -273,13 +273,13 @@ path : /path/to/non-existent-character-file
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_character_not_exist`
+### `assert_character_not_exists`
 
 Fail if the given character special file exists.
 
 ```bash
-@test 'assert_character_not_exist() {
-  assert_file_not_exist /path/to/existing-character-file
+@test 'assert_character_not_exists() {
+  assert_file_not_exists /path/to/existing-character-file
 }
 ```
 
@@ -295,13 +295,13 @@ path : /path/to/existing-character-file
 ---
 
 
-### `assert_socket_exist`
+### `assert_socket_exists`
 
 Fail if the given socket does not exist.
 
 ```bash
-@test 'assert_socket_exist()' {
-  assert_file_exist /path/to/non-existent-socket
+@test 'assert_socket_exists()' {
+  assert_file_exists /path/to/non-existent-socket
 }
 ```
 
@@ -315,13 +315,13 @@ path : /path/to/non-existent-socket
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_socket_not_exist`
+### `assert_socket_not_exists`
 
 Fail if the given socket exists.
 
 ```bash
-@test 'assert_socket_not_exist() {
-  assert_file_not_exist /path/to/existing-socket
+@test 'assert_socket_not_exists() {
+  assert_file_not_exists /path/to/existing-socket
 }
 ```
 
@@ -337,13 +337,13 @@ path : /path/to/existing-socket
 ---
 
 
-### `assert_fifo_exist`
+### `assert_fifo_exists`
 
 Fail if the given named pipe does not exist.
 
 ```bash
-@test 'assert_fifo_exist()' {
-  assert_file_exist /path/to/non-existent-fifo-file
+@test 'assert_fifo_exists()' {
+  assert_file_exists /path/to/non-existent-fifo-file
 }
 ```
 
@@ -357,13 +357,13 @@ path : /path/to/non-existent-fifo-file
 [Back to index](#Index-of-all-functions)
 
 
-### `assert_fifo_not_exist`
+### `assert_fifo_not_exists`
 
 Fail if the given named pipe exists.
 
 ```bash
-@test 'assert_fifo_not_exist()' {
-  assert_file_not_exist /path/to/existing-fifo-file
+@test 'assert_fifo_not_exists()' {
+  assert_file_not_exists /path/to/existing-fifo-file
 }
 ```
 
@@ -930,8 +930,8 @@ setup {
   BATSLIB_FILE_PATH_ADD='<temp>'
 }
 
-@test 'assert_file_exist()' {
-  assert_file_exist "${TEST_TEMP_DIR}/path/to/non-existent-file"
+@test 'assert_file_exists()' {
+  assert_file_exists "${TEST_TEMP_DIR}/path/to/non-existent-file"
 }
 
 teardown() {
