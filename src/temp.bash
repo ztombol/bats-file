@@ -161,7 +161,7 @@ temp_del() {
     if ! ( batslib_is_caller --indirect 'teardown' \
         || batslib_is_caller --indirect 'teardown_file' )
     then
-      echo "Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" \
+      echo "Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" \
         | batslib_decorate 'ERROR: temp_del' \
         | fail
       return $?

@@ -31,12 +31,20 @@ fixtures 'temp'
   bats "${TEST_FIXTURE_ROOT}/temp_make-setup.bats"
 }
 
+@test "temp_make() <var>: works when called from \`setup_file'" {
+  bats "${TEST_FIXTURE_ROOT}/temp_make-setup_file.bats"
+}
+
 @test "temp_make() <var>: works when called from \`@test'" {
   bats "${TEST_FIXTURE_ROOT}/temp_make-test.bats"
 }
 
 @test "temp_make() <var>: works when called from \`teardown'" {
   bats "${TEST_FIXTURE_ROOT}/temp_make-teardown.bats"
+}
+
+@test "temp_make() <var>: works when called from \`teardown_file'" {
+  bats "${TEST_FIXTURE_ROOT}/temp_make-teardown_file.bats"
 }
 
 @test "temp_make() <var>: does not work when called from \`main'" {

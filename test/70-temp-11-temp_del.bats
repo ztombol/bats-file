@@ -89,6 +89,17 @@ fixtures 'temp'
   [ -e "$TEST_TEMP_DIR" ]
 }
 
+@test "temp_del() <path>: \`BATSLIB_TEMP_PRESERVE_ON_FAILURE' works when called from \`teardown_file'" {
+  teardown() { rm -r -- "$TEST_TEMP_DIR"; }
+
+  TEST_TEMP_DIR="$(temp_make)"
+  export TEST_TEMP_DIR
+  run bats "${TEST_FIXTURE_ROOT}/temp_del-teardown_file.bats"
+
+  [ "$status" -eq 1 ]
+  [ -e "$TEST_TEMP_DIR" ]
+}
+
 @test "temp_del() <path>: \`BATSLIB_TEMP_PRESERVE_ON_FAILURE' does not work when called from \`main'" {
   teardown() { rm -r -- "$TEST_TEMP_DIR"; }
 
@@ -99,7 +110,7 @@ fixtures 'temp'
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 10 ]
   [ "${lines[6]}" == '# -- ERROR: temp_del --' ]
-  [ "${lines[7]}" == "# Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
+  [ "${lines[7]}" == "# Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
   [ "${lines[8]}" == '# --' ]
 }
 
@@ -113,7 +124,21 @@ fixtures 'temp'
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 10 ]
   [[ ${lines[6]} == *'-- ERROR: temp_del --' ]] || false
-  [[ ${lines[7]} == *"Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]] || false
+  [[ ${lines[7]} == *"Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]] || false
+  [[ ${lines[8]} == *'--' ]] || false
+}
+
+@test "temp_del() <path>: \`BATSLIB_TEMP_PRESERVE_ON_FAILURE' does not work when called from \`setup_file'" {
+  teardown() { rm -r -- "$TEST_TEMP_DIR"; }
+
+  TEST_TEMP_DIR="$(temp_make)"
+  export TEST_TEMP_DIR
+  run bats "${TEST_FIXTURE_ROOT}/temp_del-setup_file.bats"
+
+  [ "$status" -eq 1 ]
+  [ "${#lines[@]}" -eq 10 ]
+  [[ ${lines[6]} == *'-- ERROR: temp_del --' ]] || false
+  [[ ${lines[7]} == *"Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]] || false
   [[ ${lines[8]} == *'--' ]] || false
 }
 
@@ -127,6 +152,6 @@ fixtures 'temp'
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 10 ]
   [[ ${lines[6]} == *'-- ERROR: temp_del --' ]] || false
-  [[ ${lines[7]} == *"Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]] || false
+  [[ ${lines[7]} == *"Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]] || false
   [[ ${lines[8]} == *'--' ]] || false
 }
