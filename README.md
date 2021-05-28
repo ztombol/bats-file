@@ -947,6 +947,50 @@ path : <temp>/path/to/non-existent-file
 --
 ```
 
+## **Development**
+
+No one would want to develop piece of bash dependant libraries on their laptops due to single mistake (globbing for instance) can cause a disaster. In order to prevent this there is a Vagrantfile that you can use.
+
+In order to start development environment, you have to take two steps;
+
+```shell
+user@localhost:~/bats-file$ vagrant up
+```
+
+The line above spins up a brand new virtualbox image and provisions with prerequisites.
+
+However, as the tests require not to be on a network share due to running commands eg: `mknod`, the files are shared into the VM by `rsync` module. Rsync in vagrant only runs initialy and stops. During the active development, you regularly change files and might want to see the impact. To achive that, you have to use auto rsync.
+
+> `auto-rsync` is a long running command. It means that it has to run on terminal screen as long as the VM is up and running. So, you have to keep this in a dedicated terminal screen.
+
+After bringing up the VM, you can simply run following command;
+
+```shell
+user@localhost:~/bats-file$ vagrant rsync-auto
+```
+
+**WARNING! WARNING! WARNING!:** There will be a small delay between file save and sync. When you save a file please keep eye on the terminal window/pane and sync is triggered and finished. Simply run your next test with 5s-10s delay.
+
+The repo files can be found under `/home/vagrant/bats-file` and you can run tests with
+
+```shell
+user@localhost:~/bats-file$ bats test
+# or
+user@localhost:~/bats-file$ bats test/on-particular-test.bats
+```
+
+Once you're done with development, you can simply turn the VM off with
+
+```shell
+user@localhost:~/bats-file$ vagrant halt
+```
+
+### Why?
+
+- Why Vagrant, not Docker
+  - This replicates the 100% CI
+- Why EoL Xenial image
+  - This replicates the 100% CI. Also, one step at a time. This wasn't in place at all. However, this change will bring up other concerns. So, that problems should be solved at another time.
 
 <!-- REFERENCES -->
 
