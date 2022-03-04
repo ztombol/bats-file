@@ -97,10 +97,10 @@ fixtures 'temp'
   run bats "${TEST_FIXTURE_ROOT}/temp_del-main.bats"
 
   [ "$status" -eq 1 ]
-  [ "${#lines[@]}" -eq 3 ]
-  [ "${lines[0]}" == '-- ERROR: temp_del --' ]
-  [ "${lines[1]}" == "Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
-  [ "${lines[2]}" == '--' ]
+  [ "${#lines[@]}" -eq 10 ]
+  [ "${lines[6]}" == '# -- ERROR: temp_del --' ]
+  [ "${lines[7]}" == "# Must be called from \`teardown' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
+  [ "${lines[8]}" == '# --' ]
 }
 
 @test "temp_del() <path>: \`BATSLIB_TEMP_PRESERVE_ON_FAILURE' does not work when called from \`setup'" {
