@@ -283,27 +283,20 @@ assert_files_equal() {
 assert_file_owner() {
   local -r owner="$1"
   local -r file="$2"
-  if [[ `uname` == "Darwin" ]]; then
-  sudo chown root ${TEST_FIXTURE_ROOT}/dir/owner
-  sudo chown daemon ${TEST_FIXTURE_ROOT}/dir/notowner
-  if [ `stat -f '%Su' "$file"` != "$owner" ]; then
+  if [[ "$(uname)" == "Darwin" ]]; then
+    __cmd_param="-f %Su"
+  elif [[ "$(uname)" == "Linux" ]]; then
+    __cmd_param="-c %U"
+  fi
+  __o=$(stat $__cmd_param "$file")
+
+  if [[ "$__o" != "$owner" ]]; then
     local -r rem="$BATSLIB_FILE_PATH_REM"
     local -r add="$BATSLIB_FILE_PATH_ADD"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
       | batslib_decorate "user $owner is not the owner of the file" \
       | fail
   fi
-elif [[ `uname` == "Linux" ]]; then
-  sudo chown root ${TEST_FIXTURE_ROOT}/dir/owner
-  sudo chown daemon ${TEST_FIXTURE_ROOT}/dir/notowner
-  if [ `stat -c "%U" "$file"` != "$owner" ]; then
-    local -r rem="$BATSLIB_FILE_PATH_REM"
-    local -r add="$BATSLIB_FILE_PATH_ADD"
-    batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate "user $owner is not the owner of the file" \
-      | fail
-  fi
-fi
 }
 
 # Fail if file does not have given permissions. This
