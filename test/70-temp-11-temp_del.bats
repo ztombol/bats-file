@@ -14,6 +14,20 @@ fixtures 'temp'
   [ ! -e "$TEST_TEMP_DIR" ]
 }
 
+@test 'temp_del() <path>: works even if wrote-protected file/directory exists within' {
+  TEST_TEMP_DIR="$(temp_make)"
+  touch $TEST_TEMP_DIR/nowritefile
+  chmod -w $TEST_TEMP_DIR/nowritefile
+  mkdir -p $TEST_TEMP_DIR/nowritefolder
+  chmod -w $TEST_TEMP_DIR/nowritefolder
+
+  run temp_del "$TEST_TEMP_DIR"
+
+  [ "$status" -eq 0 ]
+  [ "${#lines[@]}" -eq 0 ]
+  [ ! -e "$TEST_TEMP_DIR" ]
+}
+
 @test 'temp_del() <path>: returns 1 and displays an error message if <path> can not be deleted' {
   local -r path="${TEST_FIXTURE_ROOT}/does/not/exist"
   run temp_del "$path"
