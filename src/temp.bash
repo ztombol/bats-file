@@ -172,7 +172,7 @@ temp_del() {
 
   # Delete directory.
   local result
-  result="$(rm -r -- "$path" 2>&1)"
+  result="$(rm -r -- "$path" 2>&1 </dev/null)"
   if (( $? )); then
     echo "$result" \
       | batslib_decorate 'ERROR: temp_del' \
