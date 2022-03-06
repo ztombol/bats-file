@@ -154,9 +154,9 @@ temp_del() {
   local -r path="$1"
 
   # Environment variables.
-  if [[ $BATSLIB_TEMP_PRESERVE == '1' ]]; then
+  if [[ ${BATSLIB_TEMP_PRESERVE-} == '1' ]]; then
     return 0
-  elif [[ $BATSLIB_TEMP_PRESERVE_ON_FAILURE == '1' ]]; then
+  elif [[ ${BATSLIB_TEMP_PRESERVE_ON_FAILURE-} == '1' ]]; then
     # Check caller.
     if ! ( batslib_is_caller --indirect 'teardown' \
         || batslib_is_caller --indirect 'teardown_file' )
@@ -167,7 +167,7 @@ temp_del() {
       return $?
     fi
 
-    (( BATS_TEST_COMPLETED != 1 )) && return 0
+    (( ${BATS_TEST_COMPLETED:-0} != 1 )) && return 0
   fi
 
   # Delete directory.
