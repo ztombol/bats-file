@@ -1105,5 +1105,7 @@ assert_block_exist() { assert_block_exists "$@"; }
 assert_block_not_exist() { assert_block_not_exists "$@"; }
 assert_character_exist() { assert_character_exists "$@"; }
 assert_character_not_exist() { assert_character_not_exists "$@"; }
+assert_socket_exist() { assert_socket_exists "$@"; }
+assert_socket_not_exist() { assert_socket_not_exists "$@"; }
 assert_fifo_exist() { assert_fifo_exists "$@"; }
 assert_fifo_not_exist() { assert_fifo_not_exists "$@"; }
