@@ -133,7 +133,7 @@ Fail if the given directory does not exist.
 
 ```bash
 @test 'assert_dir_exists()' {
-  assert_file_exists /path/to/non-existent-directory
+  assert_dir_exists /path/to/non-existent-directory
 }
 ```
 
