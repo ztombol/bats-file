@@ -306,7 +306,8 @@ assert_file_owner() {
 #   BATSLIB_FILE_PATH_REM
 #   BATSLIB_FILE_PATH_ADD
 # Arguments:
-#   $1 - path
+#   $1 - permission
+#   $2 - path
 # Returns:
 #   0 - file has given permissions
 #   1 - otherwise
