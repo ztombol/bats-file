@@ -30,4 +30,4 @@ jobs:
       run: |
         PATH="$HOME/.local/bin:$PATH"
         bats -v
-        BATS_LIB_PATH="$PWD" bats test
+        BATS_LIB_PATH="$PWD" bats --print-output-on-failure test
