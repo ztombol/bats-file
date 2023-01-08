@@ -37,8 +37,7 @@ fixtures 'temp'
   [ "${lines[0]}" == '-- ERROR: temp_del --' ]
   # Travis CI's Ubuntu 12.04, quotes the path with a backtick and an
   # apostrophe, instead of just apostrophes.
-  local REGEX="rm: can(no|')t remove '${path}': No such file or directory"
-  [[ ${lines[1]} =~ $REGEX ]] || false
+  [[ ${lines[1]} == 'rm:'*"${path}"*': No such file or directory' ]] || false
   [ "${lines[2]}" == '--' ]
 }
 
