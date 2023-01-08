@@ -28,7 +28,7 @@ teardown () {
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
   [ "${lines[0]}" == '-- file is greater than 0 byte --' ]
-  [ "${lines[1]}" == "path : $file" ]
+  [ "${lines[1]}" == "path : $NOTZERO_FILE" ]
   [ "${lines[2]}" == '--' ]
 }
 
