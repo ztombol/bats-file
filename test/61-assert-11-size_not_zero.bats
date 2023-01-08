@@ -4,7 +4,10 @@ load 'test_helper'
 fixtures 'exist'
 
 setup () {
-  touch ${TEST_FIXTURE_ROOT}/dir/zerobyte 
+  readonly ZERO_FILE="${TEST_FIXTURE_ROOT}/dir/zerobyte"
+  touch "$ZERO_FILE"
+  readonly NOTZERO_FILE="${TEST_FIXTURE_ROOT}/dir/notzerobyte"
+  echo "not empty" > "$NOTZERO_FILE"
 }
 
 teardown () {  
