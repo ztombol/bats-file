@@ -816,20 +816,23 @@ assert_file_not_executable() {
 # Outputs:
 #   STDERR - details, on failure
 assert_not_file_owner() {
-  local -r owner="$1"
+  local -r expected_owner="$1"
   local -r file="$2"
-  if [[ "$(uname)" == "Darwin" ]]; then
-    __cmd_param="-f %Su"
-  elif [[ "$(uname)" == "Linux" ]]; then
-    __cmd_param="-c %U"
-  fi
-  __o=$(stat $__cmd_param "$file")
+  case "$OSTYPE" in
+    "darwin"*)
+      local -ra  cmd_params=(-f %Su)
+    ;;
+    "linux-gnu"*)
+      local -ra cmd_params=(-c %U)
+    ;;
+  esac
+  local -r actual_owner=$(stat "${cmd_params[@]}" "$file")
 
-  if [[ "$__o" == "$owner" ]]; then
+  if [[ "$actual_owner" == "$expected_owner" ]]; then
     local -r rem="${BATSLIB_FILE_PATH_REM-}"
     local -r add="${BATSLIB_FILE_PATH_ADD-}"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
-      | batslib_decorate "user $owner is the owner of the file, but it was expected not to be" \
+      | batslib_decorate "user $expected_owner is the owner of the file, but it was expected not to be" \
       | fail
   fi
 }
