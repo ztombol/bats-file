@@ -267,6 +267,24 @@ assert_files_equal() {
   fi
 }
 
+# Get the owner of a file
+# Arguments:
+# $1 - output variable name
+# $2 - path to file
+_bats_get_file_owner() {
+  local -r output_var=$1
+  local -r file=$2
+  case "$OSTYPE" in
+    "darwin"*)
+      local -ra cmd_params=(-f %Su)
+    ;;
+    "linux-gnu"*)
+      local -ra cmd_params=(-c %U)
+    ;;
+  esac
+  printf -v "$output_var" "%s" "$(stat "${cmd_params[@]}" "$file")"
+}
+
 # Fail and display path of the user is not the owner of a file. This
 # function is the logical complement of `assert_file_not_owner'.
 #
@@ -283,14 +301,12 @@ assert_files_equal() {
 assert_file_owner() {
   local -r owner="$1"
   local -r file="$2"
-  if [[ "$(uname)" == "Darwin" ]]; then
-    __cmd_param="-f %Su"
-  elif [[ "$(uname)" == "Linux" ]]; then
-    __cmd_param="-c %U"
-  fi
-  __o=$(stat $__cmd_param "$file")
+  
+  local actual_owner
+  _bats_get_file_owner actual_owner "$file"
+  readonly actual_owner
 
-  if [[ "$__o" != "$owner" ]]; then
+  if [[ "$actual_owner" != "$owner" ]]; then
     local -r rem="${BATSLIB_FILE_PATH_REM-}"
     local -r add="${BATSLIB_FILE_PATH_ADD-}"
     batslib_print_kv_single 4 'path' "${file/$rem/$add}" \
@@ -818,15 +834,10 @@ assert_file_not_executable() {
 assert_not_file_owner() {
   local -r expected_owner="$1"
   local -r file="$2"
-  case "$OSTYPE" in
-    "darwin"*)
-      local -ra  cmd_params=(-f %Su)
-    ;;
-    "linux-gnu"*)
-      local -ra cmd_params=(-c %U)
-    ;;
-  esac
-  local -r actual_owner=$(stat "${cmd_params[@]}" "$file")
+
+  local actual_owner
+  _bats_get_file_owner actual_owner "$file"
+  readonly actual_owner
 
   if [[ "$actual_owner" == "$expected_owner" ]]; then
     local -r rem="${BATSLIB_FILE_PATH_REM-}"
