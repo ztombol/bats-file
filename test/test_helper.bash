@@ -20,6 +20,6 @@ export TEST_DEPS_DIR="${TEST_DEPS_DIR-${TEST_MAIN_DIR}/..}"
 set -u
 
 # Load dependencies.
-load "${TEST_DEPS_DIR}/bats-support/load.bash"
+bats_load_library 'bats-support'
 # Load library.
 load '../load'

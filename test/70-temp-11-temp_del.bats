@@ -37,7 +37,7 @@ fixtures 'temp'
   [ "${lines[0]}" == '-- ERROR: temp_del --' ]
   # Travis CI's Ubuntu 12.04, quotes the path with a backtick and an
   # apostrophe, instead of just apostrophes.
-  [[ ${lines[1]} =~ 'rm: cannot remove '.${path}.': No such file or directory' ]]
+  [[ ${lines[1]} == 'rm:'*"${path}"*': No such file or directory' ]] || false
   [ "${lines[2]}" == '--' ]
 }
 
@@ -122,10 +122,8 @@ fixtures 'temp'
   run bats "${TEST_FIXTURE_ROOT}/temp_del-main.bats"
 
   [ "$status" -eq 1 ]
-  [ "${#lines[@]}" -eq 10 ]
-  [ "${lines[6]}" == '# -- ERROR: temp_del --' ]
-  [ "${lines[7]}" == "# Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'" ]
-  [ "${lines[8]}" == '# --' ]
+  [[ "$output" == *'-- ERROR: temp_del --'* ]] || false
+  [[ "$output" == *"Must be called from \`teardown' or \`teardown_file' when using \`BATSLIB_TEMP_PRESERVE_ON_FAILURE'"* ]] || false
 }
 
 @test "temp_del() <path>: \`BATSLIB_TEMP_PRESERVE_ON_FAILURE' does not work when called from \`setup'" {
