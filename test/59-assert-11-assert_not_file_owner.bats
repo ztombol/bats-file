@@ -37,13 +37,13 @@ teardown () {
   [ "${#lines[@]}" -eq 0 ]
 }
 
-@test 'assert_not_file_owner() <file>: returns 1 and displays path if <file> given user is the root, but it was expected not to be' {
+@test 'assert_not_file_owner() <file>: returns 1 and displays path if <file> user root is the owner of the file, but it was expected not to be' {
   local -r owner="root"
   local -r file="${TEST_FIXTURE_ROOT}/dir/owner"
   run assert_not_file_owner "$owner" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
-  [ "${lines[0]}" == '-- given user is the root, but it was expected not to be --' ]
+  [ "${lines[0]}" == '-- user root is the owner of the file, but it was expected not to be --' ]
   [ "${lines[1]}" == "path : $file" ]
   [ "${lines[2]}" == '--' ]
 }
@@ -58,7 +58,7 @@ teardown () {
   run assert_not_file_owner "$owner" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
-  [ "${lines[0]}" == '-- given user is the root, but it was expected not to be --' ]
+  [ "${lines[0]}" == '-- user root is the owner of the file, but it was expected not to be --' ]
   [ "${lines[1]}" == "path : ../dir/owner" ]
   [ "${lines[2]}" == '--' ]
 }
@@ -71,7 +71,7 @@ teardown () {
   run assert_not_file_owner "$owner" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
-  [ "${lines[0]}" == '-- given user is the root, but it was expected not to be --' ]
+  [ "${lines[0]}" == '-- user root is the owner of the file, but it was expected not to be --' ]
   [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/.." ]
   [ "${lines[2]}" == '--' ]
 }
@@ -84,7 +84,7 @@ teardown () {
   run assert_not_file_owner "$owner" "$file"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 3 ]
-  [ "${lines[0]}" == '-- given user is the root, but it was expected not to be --' ]
+  [ "${lines[0]}" == '-- user root is the owner of the file, but it was expected not to be --' ]
   [ "${lines[1]}" == "path : ${TEST_FIXTURE_ROOT}/.." ]
   [ "${lines[2]}" == '--' ]
 }
