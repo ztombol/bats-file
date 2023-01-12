@@ -98,7 +98,7 @@ temp_make() {
   local template="$prefix"
   template+="${BATS_TEST_FILENAME##*/}"
   template+="-${BATS_TEST_NUMBER}"
-  template+='-XXXXXXXXXX'
+  template+='-XXXXXX'
 
   local path
   if ! path="$(mktemp -d  --  "${BATS_TMPDIR}/${template}" 2>&1)"; then

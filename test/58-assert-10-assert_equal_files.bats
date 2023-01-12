@@ -40,7 +40,8 @@ teardown () {
   run assert_files_equal "$file1" "$file2"
   [ "$status" -eq 1 ]
   [ "${#lines[@]}" -eq 5 ]
-  [ "${lines[0]}" == "cmp: ${TEST_FIXTURE_ROOT}/dir: Is a directory" ]
+  REGEX="cmp: ${TEST_FIXTURE_ROOT}/dir: (Is a directory|I/O error)"
+  [[ "${lines[0]}" =~ $REGEX ]] || false
   [ "${lines[1]}" == "-- files are not the same --" ]
   [ "${lines[2]}" == "path : $file1" ]
   [ "${lines[3]}" == "path : $file2" ]
