@@ -274,14 +274,11 @@ assert_files_equal() {
 _bats_get_file_owner() {
   local -r output_var=$1
   local -r file=$2
-  case "$OSTYPE" in
-    "darwin"*)
+  if [[ "$OSTYPE" == darwin* ]]; then
       local -ra cmd_params=(-f %Su)
-    ;;
-    "linux-gnu"*)
+  else
       local -ra cmd_params=(-c %U)
-    ;;
-  esac
+  fi
   printf -v "$output_var" "%s" "$(stat "${cmd_params[@]}" "$file")"
 }
 
@@ -333,14 +330,11 @@ assert_file_permission() {
   local -r permission="$1"
   local -r file="$2"
 
-  case "$OSTYPE" in
-    darwin*)
+  if [[ "$OSTYPE" == darwin* ]]; then
       local -r actual_permission=$(stat -f '%A' "$file")
-    ;;
-    linux*)
+  else
       local -r actual_permission=$(stat -c "%a" "$file")
-    ;;
-  esac
+  fi
 
   if [[ "$actual_permission" != "$permission" ]]; then
     local -r rem="${BATSLIB_FILE_PATH_REM-}"
@@ -842,14 +836,11 @@ assert_not_file_permission() {
   local -r permission="$1"
   local -r file="$2"
 
-  case "$OSTYPE" in
-    darwin*)
+  if [[ "$OSTYPE" == darwin* ]]; then
       local -r actual_permission=$(stat -f '%A' "$file")
-    ;;
-    linux-gnu*)
+  else
       local -r actual_permission=$(stat -c "%a" "$file")
-    ;;
-  esac
+  fi
 
   if [ "$actual_permission" -eq "$permission" ]; then
     local -r rem="${BATSLIB_FILE_PATH_REM-}"
